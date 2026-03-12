@@ -1,0 +1,167 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  font-family: 'Montserrat', serif;
+  font-size: 16px;
+  --cryptle-icon: url('assets/logo.svg');
+  --color-background: #8ebdce;
+  --vertical-spacing-0-5: 4px;
+  --horizontal-spacing-0-5: 4px;
+  --vertical-spacing-2: 16px;
+  --vertical-spacing-1-5: 12px;
+  --bg-btn-primary: #000000;
+  --text-btn-primary: #ffffff;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: var(--color-background);
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+
+.container {
+  position: relative;
+  color: black;
+  max-width: 100%;
+  width: 100%;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.welcome-module {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  flex: 1;
+  padding: calc(var(--vertical-spacing-0-5) * 12) calc(var(--horizontal-spacing-0-5) * 10) 0;
+}
+
+.welcome-module-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.welcome-module-icon {
+  height: 120px;
+  margin-bottom: var(--vertical-spacing-1-5);
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.welcome-module-title {
+  font-size: 46px;
+  line-height: 25px;
+  font-weight: bold;
+  margin-bottom: var(--vertical-spacing-1-5);
+  position: relative;
+  text-align: center;
+}
+
+.welcome-module-subtitle {
+  font-size: 38px;
+  line-height: 35px;
+  margin-bottom: calc(var(--vertical-spacing-1-5) * 4);
+  text-align: center;
+  font-weight: 400;
+}
+
+.welcome-module-buttons {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--vertical-spacing-2);
+}
+
+.welcome-module-button {
+  width: 200px;
+  font-size: 1em;
+  box-sizing: border-box;
+  position: relative;
+  height: 2.5em;
+  border-radius: 1.5em;
+  align-content: center;
+  font-weight: 700;
+  letter-spacing: .05em;
+  margin: 0 10px 8px;
+  background: var(--bg-btn-primary);
+  color: var(--text-btn-primary);
+  padding: 1px 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.welcome-module-difficulty {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--vertical-spacing-2);
+  border: 0;
+  padding: 0;
+}
+
+.welcome-module-difficulty-legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.welcome-module-difficulty-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.welcome-module-difficulty-button {
+  display: inline-block;
+  background: transparent;
+  border: 2px solid var(--bg-btn-primary);
+  color: var(--bg-btn-primary);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 6px;
+}
+
+.welcome-module-difficulty-button:hover {
+  background: var(--bg-btn-primary);
+  color: var(--text-btn-primary);
+}
+
+.welcome-module-difficulty-input:checked + .welcome-module-difficulty-button {
+  background: var(--bg-btn-primary);
+  color: var(--text-btn-primary);
+}
+
+.welcome-module-difficulty-input:focus-visible + .welcome-module-difficulty-button {
+  outline: 2px solid var(--bg-btn-primary);
+  outline-offset: 2px;
+}
