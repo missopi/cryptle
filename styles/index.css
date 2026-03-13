@@ -5,7 +5,7 @@
   font-size: 16px;
   --cryptle-icon: url('../assets/logo.svg');
   --color-background: #8ebdce;
-  --game-color-background: white;
+  --game-color-background: #ffffff;
   --empty-tile-color: #cbcdd1;
 
   /* Spacing variables */
