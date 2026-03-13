@@ -1,36 +1,10 @@
-:root {
-  font-family: 'Montserrat', serif;
-  font-size: 16px;
-  --cryptle-icon: url('assets/logo.svg');
-  --color-background: white;
-  --vertical-spacing-0-5: 4px;
-  --horizontal-spacing-0-5: 4px;
-  --vertical-spacing-2: 16px;
-  --horizontal-spacing-2: 16px;
-  --vertical-spacing-1-5: 12px;
-  --bg-btn-primary: #000000;
-  --text-btn-primary: #ffffff;
-  --sm-btn-border-color: #bdbdbd;
-  --sm-btn-text-color: #626262;
-  --header-height: 40px;
-  --header-toolbar-height: 50px;
-  --header-padding-x: var(--horizontal-spacing-2);
-  --codeboard-height: 200px;
-  --game-max-width: 500px;
-  --empty-tile-color: #cbcdd1;
-  --empty-peg-color: #adadad;
-  --codeboard-height: 150px;
-  --colour-correct-position-correct: #ed2d2d;
-  --colour-correct-position-wrong: #ffffff;
-}
-
 html {
   height: 100%;
 }
 
 body {
   height: 100%;
-  background-color: var(--color-background);
+  background-color: var(--game-color-background);
   margin: 0;
   padding: 0;
   overflow-y: hidden;
