@@ -27,3 +27,22 @@ if (versionNumberCount) {
 
   versionNumberCount.textContent = String(versionCount).padStart(3, '0');
 }
+
+const playButton = document.getElementById('play-button');
+
+if (playButton) {
+  playButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked');
+    const difficulty = selectedDifficulty?.value ?? 'medium';
+
+    const routeByDifficulty = {
+      easy: 'game_screens/easy_game.html',
+      medium: 'game_screens/medium_game.html',
+      hard: 'game_screens/hard_game.html'
+    };
+
+    window.location.href = routeByDifficulty[difficulty] ?? routeByDifficulty.medium;
+  });
+}
