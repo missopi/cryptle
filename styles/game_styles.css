@@ -1,0 +1,118 @@
+:root {
+  font-family: 'Montserrat', serif;
+  font-size: 16px;
+  --cryptle-icon: url('assets/logo.svg');
+  --color-background: white;
+  --vertical-spacing-0-5: 4px;
+  --horizontal-spacing-0-5: 4px;
+  --vertical-spacing-2: 16px;
+  --horizontal-spacing-2: 16px;
+  --vertical-spacing-1-5: 12px;
+  --bg-btn-primary: #000000;
+  --text-btn-primary: #ffffff;
+  --header-height: 40px;
+  --header-toolbar-height: 50px;
+  --header-padding-x: var(--horizontal-spacing-2);
+  --codeboard-height: 200px;
+  --game-max-width: 500px;
+  --empty-tile-color: #cbcdd1;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: var(--color-background);
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+
+div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+header {
+  display: block;
+}
+
+.toolbar-header {
+  width: 100%;
+}
+
+.toolbar-section {
+  height: 48px;
+  justify-content: space-between;
+  padding: 0 var(--horizontal-spacing-2) 0 0;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.game-container {
+  position: relative;
+  min-height: 100dvh;
+}
+
+.game-module {
+  width: 100%;
+  max-width: var(--game-max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - var(--header-toolbar-height));
+}
+
+.game-board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.game-board {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-gap: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+  min-width: min(250px, 100vw);
+}
+
+.game-row {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.game-tile-container {
+  display:block
+}
+
+.game-tile {
+  width: 55px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+  user-select: none;
+  height: 55px;
+  border-radius: 50%;
+}
+
+.game-tile[data-state="empty"] {
+  border: 2px solid var(--empty-tile-color);
+}
