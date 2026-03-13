@@ -45,7 +45,7 @@ body {
   justify-content: space-between;
   flex-direction: column;
   flex: 1;
-  padding: calc(var(--vertical-spacing-0-5) * 12) calc(var(--horizontal-spacing-0-5) * 10) 0;
+  padding: calc(var(--vertical-spacing-0-5) * 10) calc(var(--horizontal-spacing-0-5) * 10) 0;
 }
 
 .welcome-module-content {
@@ -69,7 +69,7 @@ body {
 
 .welcome-module-title {
   font-size: 46px;
-  line-height: 25px;
+  line-height: 20px;
   font-weight: bold;
   margin-bottom: var(--vertical-spacing-1-5);
   position: relative;
@@ -79,7 +79,7 @@ body {
 .welcome-module-subtitle {
   font-size: 38px;
   line-height: 35px;
-  margin-bottom: calc(var(--vertical-spacing-1-5) * 4);
+  margin-bottom: calc(var(--vertical-spacing-1-5) * 2);
   text-align: center;
   font-weight: 400;
 }
@@ -164,4 +164,20 @@ body {
 .welcome-module-difficulty-input:focus-visible + .welcome-module-difficulty-button {
   outline: 2px solid var(--bg-btn-primary);
   outline-offset: 2px;
+}
+
+.welcome-module-date-container {
+  text-align: center;
+  margin-top: calc(var(--vertical-spacing-2) * 2);
+}
+
+.welcome-module-date {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.welcome-module-count {
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: var(--vertical-spacing-0-5);
 }
