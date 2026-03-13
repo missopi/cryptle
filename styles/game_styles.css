@@ -10,13 +10,18 @@
   --vertical-spacing-1-5: 12px;
   --bg-btn-primary: #000000;
   --text-btn-primary: #ffffff;
+  --sm-btn-border-color: #bdbdbd;
+  --sm-btn-text-color: #626262;
   --header-height: 40px;
   --header-toolbar-height: 50px;
   --header-padding-x: var(--horizontal-spacing-2);
   --codeboard-height: 200px;
   --game-max-width: 500px;
   --empty-tile-color: #cbcdd1;
-  --codeboard-height: 200px;
+  --empty-peg-color: #adadad;
+  --codeboard-height: 150px;
+  --colour-correct-position-correct: #ed2d2d;
+  --colour-correct-position-wrong: #ffffff;
 }
 
 html {
@@ -46,6 +51,9 @@ header {
 
 .toolbar-header {
   width: 100%;
+  height: var(--header-toolbar-height);
+  display: flex;
+  align-items: center;
 }
 
 .toolbar-section {
@@ -87,15 +95,48 @@ header {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   grid-gap: 5px;
-  padding: 10px;
+  padding: 6px;
   box-sizing: border-box;
-  min-width: min(250px, 100vw);
+  min-width: min(280px, 100vw);
 }
 
 .game-row {
   display: grid;
-  grid-gap: 5px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 4px;
+  grid-template-columns: repeat(4, 1fr) 0.65fr;
+}
+
+.game-peg-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  gap: 4px;
+  align-items: center;
+  justify-items: center;
+  box-sizing: border-box;
+}
+
+.game-peg {
+  width: 100%;
+  max-width: 14px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.game-peg[data-state="empty"] {
+  background-color: var(--empty-peg-color);
+}
+
+.game-peg[data-state="colour-correct-position-correct"] {
+  background-color: var(--colour-correct-position-correct);
+}
+
+.game-peg[data-state="colour-correct-position-wrong"] {
+  background-color: var(--colour-correct-position-wrong);
+  border: 2px solid var(--empty-peg-color);
 }
 
 .game-tile-container {
@@ -120,6 +161,7 @@ header {
 
 .game-codeboard {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: var(--codeboard-height);
@@ -151,8 +193,26 @@ header {
   outline-offset: 2px;
 }
 
+.code-actions-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: var(--vertical-spacing-1-5);
+}
+
+.code-action-button {
+  background: transparent;
+  border: 2px solid var(--sm-btn-border-color);
+  color: var(--sm-btn-text-color);
+  padding: 12px 20px;
+  border-radius: 28px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
 @media (min-width: 768px) {
   .game-board {
-    min-width: 280px;
+    min-width: 320px;
   }
 }
