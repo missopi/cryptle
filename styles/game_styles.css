@@ -134,39 +134,59 @@ header {
 }
 
 .game-tile[data-state="pink"],
-.codeboard-tile[data-key="pink"] {
+.codeboard-tile[data-key="pink"],
+.daily-code-dot[data-state="pink"] {
   background-color: var(--tile-pink-background);
   border: 2px solid var(--tile-pink-border);
 }
 
 .game-tile[data-state="blue"],
-.codeboard-tile[data-key="blue"] {
+.codeboard-tile[data-key="blue"],
+.daily-code-dot[data-state="blue"] {
   background-color: var(--tile-blue-background);
   border: 2px solid var(--tile-blue-border);
 }
 
 .game-tile[data-state="green"],
-.codeboard-tile[data-key="green"] {
+.codeboard-tile[data-key="green"],
+.daily-code-dot[data-state="green"] {
   background-color: var(--tile-green-background);
   border: 2px solid var(--tile-green-border);
 }
 
 .game-tile[data-state="yellow"],
-.codeboard-tile[data-key="yellow"] {
+.codeboard-tile[data-key="yellow"],
+.daily-code-dot[data-state="yellow"] {
   background-color: var(--tile-yellow-background);
   border: 2px solid var(--tile-yellow-border);
 }
 
 .game-tile[data-state="orange"],
-.codeboard-tile[data-key="orange"] {
+.codeboard-tile[data-key="orange"],
+.daily-code-dot[data-state="orange"] {
   background-color: var(--tile-orange-background);
   border: 2px solid var(--tile-orange-border);
 }
 
 .game-tile[data-state="purple"],
-.codeboard-tile[data-key="purple"] {
+.codeboard-tile[data-key="purple"],
+.daily-code-dot[data-state="purple"] {
   background-color: var(--tile-purple-background);
   border: 2px solid var(--tile-purple-border);
+}
+
+#daily-code-display {
+  display: inline-flex;
+  gap: 8px;
+  vertical-align: middle;
+}
+
+.daily-code-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
 }
 
 .game-codeboard {
