@@ -7,8 +7,17 @@ const VALID_TILE_STATES = new Set([
   "purple",
 ]);
 
-function fillFirstEmptyTile(colour) {
-  const firstEmptyTile = document.querySelector('.game-tile[data-state="empty"]');
+function getActiveRow() {
+  return Array.from(document.querySelectorAll(".game-row")).find((row) =>
+    row.querySelector('.game-tile[data-state="empty"]')
+  );
+}
+
+function fillFirstEmptyTileInActiveRow(colour) {
+  const activeRow = getActiveRow();
+  if (!activeRow) return;
+
+  const firstEmptyTile = activeRow.querySelector('.game-tile[data-state="empty"]');
   if (!firstEmptyTile) return;
 
   firstEmptyTile.dataset.state = colour;
@@ -21,7 +30,7 @@ function handleCodeboardTileClick(event) {
   const selectedColour = clickedTile.dataset.key;
   if (!VALID_TILE_STATES.has(selectedColour)) return;
 
-  fillFirstEmptyTile(selectedColour);
+  fillFirstEmptyTileInActiveRow(selectedColour);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
