@@ -60,11 +60,27 @@ function getDailyTargetCode(date = new Date()) {
 
 
 // Functions for managing the game state in the UI. These functions manage filling tiles and deleting tiles based on user interactions.
-// Get the currently active row, which is the first row that has at least one empty tile. Returns null if all rows are filled.
+function getRows() {
+  return Array.from(document.querySelectorAll(".game-row"));
+}
+
+function isRowLocked(row) {
+  return row?.dataset.locked === "true";
+}
+
+function isRowComplete(row) {
+  if (!row) return false;
+  return !row.querySelector('.game-tile[data-state="empty"]');
+}
+
+function getRowColours(row) {
+  const tiles = Array.from(row.querySelectorAll(".game-tile"));
+  return tiles.map((tile) => tile.dataset.state);
+}
+
+// Get the currently active row, which is the first unlocked row.
 function getActiveRow() {
-  return Array.from(document.querySelectorAll(".game-row")).find((row) =>
-    row.querySelector('.game-tile[data-state="empty"]')
-  );
+  return getRows().find((row) => !isRowLocked(row)) ?? null;
 }
 
 // Fill the first empty tile in the active row with the given colour. Does nothing if there is no active row or if the active row is already full.
@@ -78,29 +94,13 @@ function fillFirstEmptyTileInActiveRow(colour) {
   firstEmptyTile.dataset.state = colour;
 }
 
-// Get the row to delete from when the user clicks the delete button. 
-function getRowForDelete() {
-  const rows = Array.from(document.querySelectorAll(".game-row"));
-  const activeIndex = rows.findIndex((row) =>
-    row.querySelector('.game-tile[data-state="empty"]')
-  );
-
-  if (activeIndex === -1) return rows[rows.length - 1] ?? null;
-
-  const activeRow = rows[activeIndex];
-  const activeHasFilled = activeRow.querySelector('.game-tile:not([data-state="empty"])');
-
-  if (activeHasFilled) return activeRow;
-  return rows[activeIndex - 1] ?? activeRow;
-}
-
-// Delete the last filled tile in the active row. If the active row is empty, deletes the last filled tile in the previous row. Does nothing if there are no filled tiles.
+// Delete the last filled tile only in the current active row.
 function deleteLastFilledTileInActiveRow() {
-  const row = getRowForDelete();
-  if (!row) return;
+  const activeRow = getActiveRow();
+  if (!activeRow) return;
 
   const filledTiles = Array.from(
-    row.querySelectorAll('.game-tile:not([data-state="empty"])')
+    activeRow.querySelectorAll('.game-tile:not([data-state="empty"])')
   );
   if (filledTiles.length === 0) return;
 
@@ -111,30 +111,36 @@ const DAILY_TARGET_CODE = getDailyTargetCode();
 
 // Find latest completed row
 function getLatestCompletedRow() {
-  const rows = Array.from(document.querySelectorAll(".game-row"));
+  const rows = getRows();
 
   return [...rows].reverse().find((row) => {
-    const filledTiles = row.querySelectorAll('.game-tile:not([data-state="empty"])');
-    return filledTiles.length === 4;
+    return isRowComplete(row);
   }) ?? null;
 }
 
-// Return an array like ["red", "blue", "green", "yellow"] of a completed row of filled tiles.
-function returnCompletedTileRowColors() {
-  const rows = Array.from(document.querySelectorAll(".game-row"));
+// Return colours for the currently active row if it is complete.
+function returnCompletedTileRowColors(activeRow = getActiveRow()) {
+  if (!activeRow || !isRowComplete(activeRow)) return null;
+  return getRowColours(activeRow);
+}
 
-  const completedRow = getLatestCompletedRow();
+function submitActiveRow() {
+  const activeRow = getActiveRow();
+  const rowColors = returnCompletedTileRowColors(activeRow);
 
-  if (!completedRow) return null;
+  if (!activeRow || !rowColors) return null;
+  activeRow.dataset.locked = "true";
 
-  const tiles = Array.from(completedRow.querySelectorAll(".game-tile"));
-  return tiles.map((tile) => tile.dataset.state);
-};
+  return {
+    row: activeRow,
+    rowColors,
+    comparison: compareCompletedCodeToDailyCode(rowColors),
+  };
+}
 
 // Compare DAILY_TARGET_CODE to entered game row
-function compareCompletedCodeToDailyCode () {
+function compareCompletedCodeToDailyCode(completedCode = returnCompletedTileRowColors()) {
   const dailyCode = DAILY_TARGET_CODE;
-  const completedCode = returnCompletedTileRowColors();
 
   if (!completedCode) return null;
 
@@ -181,6 +187,7 @@ window.CryptleGameLogic = {
   DAILY_TARGET_CODE,
   fillFirstEmptyTileInActiveRow,
   deleteLastFilledTileInActiveRow,
+  submitActiveRow,
   returnCompletedTileRowColors,
   compareCompletedCodeToDailyCode,
   getLatestCompletedRow,

@@ -44,28 +44,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // Enter button: submit the current completed row.
   const enterButton = document.getElementById("enter-button");
   enterButton?.addEventListener("click", () => {
-    const rowColors = window.CryptleGameLogic?.returnCompletedTileRowColors();
-    const comparison = window.CryptleGameLogic?.compareCompletedCodeToDailyCode();
+    const submission = window.CryptleGameLogic?.submitActiveRow();
 
-    if (!rowColors) {
+    if (!submission) {
       return;
     }
 
-    returnPegFeedback();
-    console.log("Submitted row:", rowColors);
-    console.log("Comparison:", comparison);
+    returnPegFeedback(submission.row, submission.comparison);
+    console.log("Submitted row:", submission.rowColors);
+    console.log("Comparison:", submission.comparison);
   });
 });
 
 // Return feedback for code comparison
-function returnPegFeedback() {
-  const latestCompletedRow = getLatestCompletedRow();
-  if (!latestCompletedRow) return;
+function returnPegFeedback(row, comparison) {
+  if (!row) return;
 
-  const pegs = Array.from(latestCompletedRow.querySelectorAll(".game-peg"));
+  const pegs = Array.from(row.querySelectorAll(".game-peg"));
   if (pegs.length === 0) return;
 
-  const comparison = window.CryptleGameLogic?.compareCompletedCodeToDailyCode();
   if (!comparison) return;
 
   const sameOrderCount = Math.max(0, comparison.sameOrderCount ?? 0);
