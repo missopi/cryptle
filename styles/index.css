@@ -22,8 +22,10 @@
 
   /* Colours for pegs indicating correctness of guess */
   --red-peg-color: #ed2d2d;
+  --red-peg-border: #c52323;
   --white-peg-color: #ffffff;
-  --empty-peg-color: #adadad;
+  --white-peg-border: #757575;
+  --empty-peg-color: #e2e2e2;
 
   /* Button styles */
   --bg-btn-primary: #000000;

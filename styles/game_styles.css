@@ -106,11 +106,12 @@ header {
 
 .game-peg[data-state="correct"] {
   background-color: var(--red-peg-color);
+  border: 1.5px solid var(--red-peg-border);
 }
 
 .game-peg[data-state="almost"] {
   background-color: var(--white-peg-color);
-  border: 2px solid var(--empty-peg-color);
+  border: 1.5px solid var(--white-peg-border);
 }
 
 .game-tile-container {
