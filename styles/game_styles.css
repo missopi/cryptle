@@ -133,6 +133,36 @@ header {
   border: 2px solid var(--empty-tile-color);
 }
 
+:is(.game-tile, .codeboard-tile)[data-state="pink"] {
+  background-color: var(--tile-pink-background);
+  border: 2px solid var(--tile-pink-border);
+}
+
+:is(.game-tile, .codeboard-tile)[data-state="blue"] {
+  background-color: var(--tile-blue-background);
+  border: 2px solid var(--tile-blue-border);
+}
+
+:is(.game-tile, .codeboard-tile)[data-state="green"] {
+  background-color: var(--tile-green-background);
+  border: 2px solid var(--tile-green-border);
+}
+
+:is(.game-tile, .codeboard-tile)[data-state="yellow"] {
+  background-color: var(--tile-yellow-background);
+  border: 2px solid var(--tile-yellow-border);
+}
+
+:is(.game-tile, .codeboard-tile)[data-state="orange"] {
+  background-color: var(--tile-orange-background);
+  border: 2px solid var(--tile-orange-border);
+}
+
+:is(.game-tile, .codeboard-tile)[data-state="purple"] {
+  background-color: var(--tile-purple-background);
+  border: 2px solid var(--tile-purple-border);
+}
+
 .game-codeboard {
   display: flex;
   flex-direction: column;
@@ -150,9 +180,20 @@ header {
   gap: 5px;
 }
 
+.codeboard-tile-container {
+  display: block;
+}
+
 .codeboard-tile {
-  width: 12%;
+  width: clamp(34px, 10vw, 52px);
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+  flex: 0 0 auto;
   cursor: pointer;
   transition: transform 100ms ease-out;
   transform-origin: center;
