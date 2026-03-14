@@ -104,11 +104,11 @@ header {
   background-color: var(--empty-peg-color);
 }
 
-.game-peg[data-state="colour-correct-position-correct"] {
+.game-peg[data-state="correct"] {
   background-color: var(--red-peg-color);
 }
 
-.game-peg[data-state="colour-correct-position-wrong"] {
+.game-peg[data-state="almost"] {
   background-color: var(--white-peg-color);
   border: 2px solid var(--empty-peg-color);
 }

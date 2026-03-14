@@ -51,7 +51,45 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    returnPegFeedback();
     console.log("Submitted row:", rowColors);
     console.log("Comparison:", comparison);
   });
 });
+
+// Return feedback for code comparison
+function returnPegFeedback() {
+  const latestCompletedRow = getLatestCompletedRow();
+  if (!latestCompletedRow) return;
+
+  const pegs = Array.from(latestCompletedRow.querySelectorAll(".game-peg"));
+  if (pegs.length === 0) return;
+
+  const comparison = window.CryptleGameLogic?.compareCompletedCodeToDailyCode();
+  if (!comparison) return;
+
+  const sameOrderCount = Math.max(0, comparison.sameOrderCount ?? 0);
+  const differentOrderCount = Math.max(0, comparison.differentOrderCount ?? 0);
+  const feedbackStates = buildFeedbackStates(pegs.length, sameOrderCount, differentOrderCount);
+
+  pegs.forEach((peg, index) => {
+    peg.dataset.state = feedbackStates[index];
+  });
+}
+
+// Return correct and almost states of pegs
+function buildFeedbackStates(pegCount, sameOrderCount, differentOrderCount) {
+  const clampedSameOrderCount = Math.min(sameOrderCount, pegCount);
+  const remainingSlots = pegCount - clampedSameOrderCount;
+  const clampedDifferentOrderCount = Math.min(differentOrderCount, remainingSlots);
+
+  const states = [];
+  states.push(...Array(clampedSameOrderCount).fill("correct"));
+  states.push(...Array(clampedDifferentOrderCount).fill("almost"));
+
+  while (states.length < pegCount) {
+    states.push("empty");
+  }
+
+  return states;
+}

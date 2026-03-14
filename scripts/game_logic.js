@@ -109,14 +109,21 @@ function deleteLastFilledTileInActiveRow() {
 
 const DAILY_TARGET_CODE = getDailyTargetCode();
 
+// Find latest completed row
+function getLatestCompletedRow() {
+  const rows = Array.from(document.querySelectorAll(".game-row"));
+
+  return [...rows].reverse().find((row) => {
+    const filledTiles = row.querySelectorAll('.game-tile:not([data-state="empty"])');
+    return filledTiles.length === 4;
+  }) ?? null;
+}
+
 // Return an array like ["red", "blue", "green", "yellow"] of a completed row of filled tiles.
 function returnCompletedTileRowColors() {
   const rows = Array.from(document.querySelectorAll(".game-row"));
 
-  const completedRow = [...rows].reverse().find((row) => {
-    const filledTiles = row.querySelectorAll('.game-tile:not([data-state="empty"])');
-    return filledTiles.length === 4;
-  });
+  const completedRow = getLatestCompletedRow();
 
   if (!completedRow) return null;
 
@@ -176,4 +183,5 @@ window.CryptleGameLogic = {
   deleteLastFilledTileInActiveRow,
   returnCompletedTileRowColors,
   compareCompletedCodeToDailyCode,
+  getLatestCompletedRow,
 };
