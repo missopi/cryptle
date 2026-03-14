@@ -133,32 +133,38 @@ header {
   border: 2px solid var(--empty-tile-color);
 }
 
-:is(.game-tile, .codeboard-tile)[data-state="pink"] {
+.game-tile[data-state="pink"],
+.codeboard-tile[data-key="pink"] {
   background-color: var(--tile-pink-background);
   border: 2px solid var(--tile-pink-border);
 }
 
-:is(.game-tile, .codeboard-tile)[data-state="blue"] {
+.game-tile[data-state="blue"],
+.codeboard-tile[data-key="blue"] {
   background-color: var(--tile-blue-background);
   border: 2px solid var(--tile-blue-border);
 }
 
-:is(.game-tile, .codeboard-tile)[data-state="green"] {
+.game-tile[data-state="green"],
+.codeboard-tile[data-key="green"] {
   background-color: var(--tile-green-background);
   border: 2px solid var(--tile-green-border);
 }
 
-:is(.game-tile, .codeboard-tile)[data-state="yellow"] {
+.game-tile[data-state="yellow"],
+.codeboard-tile[data-key="yellow"] {
   background-color: var(--tile-yellow-background);
   border: 2px solid var(--tile-yellow-border);
 }
 
-:is(.game-tile, .codeboard-tile)[data-state="orange"] {
+.game-tile[data-state="orange"],
+.codeboard-tile[data-key="orange"] {
   background-color: var(--tile-orange-background);
   border: 2px solid var(--tile-orange-border);
 }
 
-:is(.game-tile, .codeboard-tile)[data-state="purple"] {
+.game-tile[data-state="purple"],
+.codeboard-tile[data-key="purple"] {
   background-color: var(--tile-purple-background);
   border: 2px solid var(--tile-purple-border);
 }
