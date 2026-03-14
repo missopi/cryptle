@@ -21,8 +21,8 @@
   --codeboard-height: 170px;
 
   /* Colours for pegs indicating correctness of guess */
-  --colour-correct-position-correct: #ed2d2d;
-  --colour-correct-position-wrong: #ffffff;
+  --red-peg-color: #ed2d2d;
+  --white-peg-color: #ffffff;
   --empty-peg-color: #adadad;
 
   /* Button styles */
