@@ -109,6 +109,21 @@ function deleteLastFilledTileInActiveRow() {
 
 const DAILY_TARGET_CODE = getDailyTargetCode();
 
+// Return an array like ["red", "blue", "green", "yellow"] of a completed row of filled tiles.
+function returnCompletedTileRowColors() {
+  const rows = Array.from(document.querySelectorAll(".game-row"));
+
+  const completedRow = rows.find((row) => {
+    const filledTiles = row.querySelectorAll('.game-tile:not([data-state="empty"])');
+    return filledTiles.length === 4;
+  });
+
+  if (!completedRow) return null;
+
+  const tiles = Array.from(completedRow.querySelectorAll(".game-tile"));
+  return tiles.map((tile) => tile.dataset.color);
+};
+
 // Expose the game logic and state management functions so they can be accessed in game_visuals.js.
 window.CryptleGameLogic = {
   VALID_TILE_STATES,
