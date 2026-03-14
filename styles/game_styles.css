@@ -185,7 +185,7 @@ header {
 }
 
 .codeboard-tile {
-  width: clamp(34px, 10vw, 52px);
+  width: clamp(45px, 10vw, 55px);
   border-radius: 50%;
   aspect-ratio: 1 / 1;
   display: inline-flex;
