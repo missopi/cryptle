@@ -13,7 +13,7 @@ function handleCodeboardTileClick(event) {
   gameLogic.fillFirstEmptyTileInActiveRow(selectedColour);
 }
 
-// Show the daily target code. THis is currently just for testing but will be shown at the end of the game in the final version. Each colour in the code is represented by a dot with a corresponding aria-label for accessibility.
+// Show the daily target code. This is currently just for testing but will be shown at the end of the game in the final version. Each colour in the code is represented by a dot with a corresponding aria-label for accessibility.
 function renderDailyCodeDisplay() {
   const display = document.getElementById("daily-code-display");
   const gameLogic = window.CryptleGameLogic;
@@ -30,13 +30,28 @@ function renderDailyCodeDisplay() {
   });
 }
 
-// Handle clicks on the delete button to delete the last filled tile in the active row.
+// Wire all click handlers once after the DOM is ready.
 document.addEventListener("DOMContentLoaded", () => {
   renderDailyCodeDisplay();
   document.addEventListener("click", handleCodeboardTileClick);
 
+  // Delete button: remove the last filled tile in the current editable row.
   const deleteButton = document.getElementById("delete-button");
   deleteButton?.addEventListener("click", () => {
     window.CryptleGameLogic?.deleteLastFilledTileInActiveRow();
+  });
+
+  // Enter button: submit the current completed row.
+  const enterButton = document.getElementById("enter-button");
+  enterButton?.addEventListener("click", () => {
+    const rowColors = window.CryptleGameLogic?.returnCompletedTileRowColors();
+    const comparison = window.CryptleGameLogic?.compareCompletedCodeToDailyCode();
+
+    if (!rowColors) {
+      return;
+    }
+
+    console.log("Submitted row:", rowColors);
+    console.log("Comparison:", comparison);
   });
 });
