@@ -113,7 +113,7 @@ const DAILY_TARGET_CODE = getDailyTargetCode();
 function returnCompletedTileRowColors() {
   const rows = Array.from(document.querySelectorAll(".game-row"));
 
-  const completedRow = rows.find((row) => {
+  const completedRow = [...rows].reverse().find((row) => {
     const filledTiles = row.querySelectorAll('.game-tile:not([data-state="empty"])');
     return filledTiles.length === 4;
   });
@@ -121,8 +121,51 @@ function returnCompletedTileRowColors() {
   if (!completedRow) return null;
 
   const tiles = Array.from(completedRow.querySelectorAll(".game-tile"));
-  return tiles.map((tile) => tile.dataset.color);
+  return tiles.map((tile) => tile.dataset.state);
 };
+
+// Compare DAILY_TARGET_CODE to entered game row
+function compareCompletedCodeToDailyCode () {
+  const dailyCode = DAILY_TARGET_CODE;
+  const completedCode = returnCompletedTileRowColors();
+
+  if (!completedCode) return null;
+
+  let sameOrderCount = 0;
+  const unmatchedDailyCounts = new Map();
+  const unmatchedCompleted = [];
+
+  for (let i = 0; i < dailyCode.length; i += 1) {
+    if (completedCode[i] === dailyCode[i]) {
+      sameOrderCount += 1;
+    } else {
+      const dailyColour = dailyCode[i];
+      unmatchedDailyCounts.set(
+        dailyColour,
+        (unmatchedDailyCounts.get(dailyColour) ?? 0) + 1
+      );
+      unmatchedCompleted.push(completedCode[i]);
+    }
+  }
+
+  let differentOrderCount = 0;
+  unmatchedCompleted.forEach((colour) => {
+    const remainingCount = unmatchedDailyCounts.get(colour) ?? 0;
+    if (remainingCount > 0) {
+      differentOrderCount += 1;
+      if (remainingCount === 1) {
+        unmatchedDailyCounts.delete(colour);
+      } else {
+        unmatchedDailyCounts.set(colour, remainingCount - 1);
+      }
+    }
+  });
+
+  return {
+    sameOrderCount,
+    differentOrderCount,
+  };
+}
 
 // Expose the game logic and state management functions so they can be accessed in game_visuals.js.
 window.CryptleGameLogic = {
@@ -131,5 +174,6 @@ window.CryptleGameLogic = {
   DAILY_TARGET_CODE,
   fillFirstEmptyTileInActiveRow,
   deleteLastFilledTileInActiveRow,
+  returnCompletedTileRowColors,
+  compareCompletedCodeToDailyCode,
 };
-
