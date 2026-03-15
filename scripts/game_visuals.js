@@ -51,8 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     returnPegFeedback(submission.row, submission.comparison);
-    console.log("Submitted row:", submission.rowColors);
-    console.log("Comparison:", submission.comparison);
+
+    if (isGameOver(submission.comparison)) {
+      onGameOver();
+    }
   });
 });
 
@@ -91,7 +93,22 @@ function buildFeedbackStates(pegCount, sameOrderCount, differentOrderCount) {
   return states;
 }
 
+function isGameOver(comparison) {
+  const gameLogic = window.CryptleGameLogic;
+  if (!gameLogic || !comparison) return false;
+
+  const codeLength = gameLogic.DAILY_TARGET_CODE.length;
+  const isWinningGuess = comparison.sameOrderCount === codeLength;
+  if (isWinningGuess) return true;
+
+  const totalRows = document.querySelectorAll(".game-row").length;
+  const lockedRows = document.querySelectorAll('.game-row[data-locked="true"]').length;
+  const allGuessesUsed = lockedRows >= totalRows;
+
+  return allGuessesUsed;
+}
+
 function onGameOver() {
-  // game-over code...
-  document.getElementById("daily-code-container").classList.remove("hidden");
+  const dailyCodeContainer = document.getElementById("daily-code-container");
+  dailyCodeContainer?.classList.remove("hidden");
 }
