@@ -100,7 +100,9 @@ function deleteLastFilledTileInActiveRow() {
   if (!activeRow) return;
 
   const filledTiles = Array.from(
-    activeRow.querySelectorAll('.game-tile:not([data-state="empty"])')
+    activeRow.querySelectorAll(
+      '.game-tile:not([data-state="empty"]):not([data-fixed="true"])'
+    )
   );
   if (filledTiles.length === 0) return;
 
@@ -108,6 +110,30 @@ function deleteLastFilledTileInActiveRow() {
 }
 
 const DAILY_TARGET_CODE = getDailyTargetCode();
+const LOCKED_CORRECT_TILES = Array(DAILY_TARGET_CODE.length).fill(null);
+
+// Tiles that are correctly guessed are prefilled in the next active row.
+function updateLockedCorrectTiles(rowColors) {
+  for (let i = 0; i < DAILY_TARGET_CODE.length; i += 1) {
+    if (rowColors[i] === DAILY_TARGET_CODE[i]) {
+      LOCKED_CORRECT_TILES[i] = rowColors[i];
+    }
+  }
+}
+
+function prefillLockedCorrectTilesInActiveRow() {
+  const activeRow = getActiveRow();
+  if (!activeRow) return;
+
+  const tiles = Array.from(activeRow.querySelectorAll(".game-tile"));
+  tiles.forEach((tile, index) => {
+    const lockedColour = LOCKED_CORRECT_TILES[index];
+    if (!lockedColour) return;
+
+    tile.dataset.state = lockedColour;
+    tile.dataset.fixed = "true";
+  });
+}
 
 // Find latest completed row
 function getLatestCompletedRow() {
@@ -130,6 +156,15 @@ function submitActiveRow() {
 
   if (!activeRow || !rowColors) return null;
   activeRow.dataset.locked = "true";
+
+  const isWinningRow = rowColors.every((colour, index) => {
+    return colour === DAILY_TARGET_CODE[index];
+  });
+
+  if (!isWinningRow) {
+    updateLockedCorrectTiles(rowColors);
+    prefillLockedCorrectTilesInActiveRow();
+  }
 
   return {
     row: activeRow,
