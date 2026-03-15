@@ -112,6 +112,11 @@ function deleteLastFilledTileInActiveRow() {
 const DAILY_TARGET_CODE = getDailyTargetCode();
 const LOCKED_CORRECT_TILES = Array(DAILY_TARGET_CODE.length).fill(null);
 
+function shouldPrefillCorrectTilesForCurrentGame() {
+  const currentPage = window.location.pathname.split("/").pop();
+  return currentPage === "easy_game.html" || currentPage === "medium_game.html";
+}
+
 // Tiles that are correctly guessed are prefilled in the next active row.
 function updateLockedCorrectTiles(rowColors) {
   for (let i = 0; i < DAILY_TARGET_CODE.length; i += 1) {
@@ -161,7 +166,7 @@ function submitActiveRow() {
     return colour === DAILY_TARGET_CODE[index];
   });
 
-  if (!isWinningRow) {
+  if (!isWinningRow && shouldPrefillCorrectTilesForCurrentGame()) {
     updateLockedCorrectTiles(rowColors);
     prefillLockedCorrectTilesInActiveRow();
   }
