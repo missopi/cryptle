@@ -87,7 +87,7 @@ function buildFeedbackStates(pegCount, sameOrderCount, differentOrderCount) {
   states.push(...Array(clampedDifferentOrderCount).fill("almost"));
 
   while (states.length < pegCount) {
-    states.push("empty");
+    states.push("incorrect");
   }
 
   return states;

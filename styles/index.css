@@ -25,7 +25,8 @@
   --red-peg-border: #c52323;
   --white-peg-color: #ffffff;
   --white-peg-border: #757575;
-  --empty-peg-color: #e2e2e2;
+  --grey-peg-color: #a2a2a2;
+  --empty-peg-color: #f4f4f4;
 
   /* Button styles */
   --bg-btn-primary: #000000;
