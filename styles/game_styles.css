@@ -136,7 +136,7 @@ header {
   vertical-align: middle;
   box-sizing: border-box;
   user-select: none;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
 .game-tile[data-state="empty"] {
@@ -194,7 +194,7 @@ header {
 .daily-code-dot {
   width: 16px;
   height: 16px;
-  border-radius: 50%;
+  border-radius: 30%;
   display: inline-block;
   box-sizing: border-box;
 }
@@ -222,7 +222,7 @@ header {
 
 .codeboard-tile {
   width: clamp(45px, 10vw, 55px);
-  border-radius: 50%;
+  border-radius: 30%;
   aspect-ratio: 1 / 1;
   display: inline-flex;
   justify-content: center;
