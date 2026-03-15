@@ -90,3 +90,8 @@ function buildFeedbackStates(pegCount, sameOrderCount, differentOrderCount) {
 
   return states;
 }
+
+function onGameOver() {
+  // game-over code...
+  document.getElementById("daily-code-container").classList.remove("hidden");
+}
