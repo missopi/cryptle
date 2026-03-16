@@ -35,20 +35,20 @@
   --sm-btn-text-color: #626262;
 
   /* tile colours */
-  --tile-pink-background: #fc7991;
-  --tile-pink-border: #c65065;
-  --tile-blue-background: #00caed;
-  --tile-blue-border: #087082;
-  --tile-green-background: #27c57e;
-  --tile-green-border: #068b4b;
-  --tile-yellow-background: #ffd945;
-  --tile-yellow-border: #cba924;
-  --tile-orange-background: #ff914d;
-  --tile-orange-border: #bb5e24;
-  --tile-purple-background: #cb6ce6;
-  --tile-purple-border: #854696;
-  --tile-brown-background: #ad5d2f;
-  --tile-brown-border: #944a1e;
-  --tile-red-background: #f14040;
-  --tile-red-border: #cb2a2a;
+  --tile-pink-background: #cc79a7;
+  --tile-pink-border: #c35c95;
+  --tile-blue-background: #56b4e9;
+  --tile-blue-border: #3a92c6;
+  --tile-green-background: #017d5c;
+  --tile-green-border: #026b4f;
+  --tile-yellow-background: #ffb300;
+  --tile-yellow-border: #d89700;
+  --tile-orange-background: #ff6800;
+  --tile-orange-border: #de5900;
+  --tile-purple-background: #803e75;
+  --tile-purple-border: #602a57;
+  --tile-brown-background: #c6bab3;
+  --tile-brown-border: #b4a399;
+  --tile-red-background: #c10020;
+  --tile-red-border: #9f011b;
 }
