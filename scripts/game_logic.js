@@ -1,14 +1,29 @@
 // Core game logic and state helpers.
 
-// The 6 valid tile states (colours) that can be used in the game.
-const VALID_TILE_STATES = new Set([
+
+// Colors used for the game tiles and daily codes
+const STANDARD_TILE_STATES = [
   "pink",
   "blue",
   "green",
   "yellow",
   "orange",
   "purple",
-]);
+];
+const HARD_MODE_EXTRA_TILE_STATES = ["brown", "red"];
+
+// HArd mode uses 2 additional colours
+function isHardGameMode(pathname = window.location.pathname) {
+  return pathname.split("/").pop() === "hard_game.html";
+}
+
+function getTileStatesForMode(isHardMode = isHardGameMode()) {
+  return isHardMode
+    ? [...STANDARD_TILE_STATES, ...HARD_MODE_EXTRA_TILE_STATES]
+    : [...STANDARD_TILE_STATES];
+}
+
+const VALID_TILE_STATES = new Set(getTileStatesForMode());
 
 // Logic for generating the daily target code. The code is generated based on the current date, so it changes daily but is the same for all players on the same day.
 // Get a string key in the format "YYYY-MM-DD". Defaults to today's date.
@@ -41,13 +56,14 @@ function createRandomNumberGenerator(seed) {
   };
 }
 
-// Returns the daily 4-colour code from the 6 available colours (repeats allowed).
-function getDailyTargetCode(date = new Date()) {
+// Returns the daily 4-colour code for the current mode's colour set (repeats allowed).
+function getDailyTargetCode(date = new Date(), isHardMode = isHardGameMode()) {
   const dateKey = getDateKey(date);
-  const seed = hashStringToSeed(`cryptle:${dateKey}`);
+  const modeKey = isHardMode ? "hard" : "standard";
+  const seed = hashStringToSeed(`cryptle:${modeKey}:${dateKey}`);
   const random = createRandomNumberGenerator(seed);
 
-  const colours = Array.from(VALID_TILE_STATES);
+  const colours = getTileStatesForMode(isHardMode);
   const dailyCode = [];
 
   for (let i = 0; i < 4; i += 1) {

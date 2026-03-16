@@ -191,6 +191,22 @@ header {
   box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
 }
 
+.game-tile[data-state="brown"],
+.codeboard-tile[data-key="brown"],
+.daily-code-dot[data-state="brown"] {
+  background-color: var(--tile-brown-background);
+  border: 2px solid var(--tile-brown-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
+}
+
+.game-tile[data-state="red"],
+.codeboard-tile[data-key="red"],
+.daily-code-dot[data-state="red"] {
+  background-color: var(--tile-red-background);
+  border: 2px solid var(--tile-red-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
+}
+
 #daily-code-display {
   display: inline-flex;
   gap: 8px;
