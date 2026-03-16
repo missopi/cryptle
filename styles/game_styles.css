@@ -238,6 +238,14 @@ header {
   gap: 5px;
 }
 
+.game-codeboard-hard .codeboard-row {
+  flex-grow: 0;
+}
+
+.game-codeboard-hard .codeboard-row + .codeboard-row {
+  margin-top: 6px;
+}
+
 .codeboard-tile-container {
   display: block;
 }
@@ -272,7 +280,7 @@ header {
   justify-content: center;
   align-items: center;
   gap: 16px;
-  margin-top: var(--vertical-spacing-1-5);
+  margin-top: var(--vertical-spacing-2);
 }
 
 .code-action-button {

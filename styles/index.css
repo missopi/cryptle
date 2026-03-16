@@ -18,7 +18,7 @@
   --header-toolbar-height: 50px;
   --header-padding-x: var(--horizontal-spacing-2);
   --game-max-width: 500px;
-  --codeboard-height: 170px;
+  --codeboard-height: 200px;
 
   /* Colours for pegs indicating correctness of guess */
   --red-peg-color: #ed2d2d;
