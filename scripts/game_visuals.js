@@ -110,5 +110,16 @@ function isGameOver(comparison) {
 
 function onGameOver() {
   const dailyCodeContainer = document.getElementById("daily-code-container");
+  const gameCodeboard = document.querySelector(".game-codeboard");
+
   dailyCodeContainer?.classList.remove("hidden");
+  gameCodeboard?.classList.add("game-over");
+
+  const codeboardElementsToHide = document.querySelectorAll(
+    ".codeboard-row, .code-actions-row",
+  );
+
+  codeboardElementsToHide.forEach((element) => {
+    element.style.display = "none";
+  });
 }

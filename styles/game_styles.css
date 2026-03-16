@@ -229,6 +229,11 @@ header {
   height: var(--codeboard-height);
 }
 
+.game-codeboard.game-over {
+  justify-content: flex-start;
+  padding-top: var(--vertical-spacing-0-5);
+}
+
 .codeboard-row {
   display: flex;
   justify-content: center;
