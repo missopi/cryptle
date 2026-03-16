@@ -148,6 +148,7 @@ header {
 .daily-code-dot[data-state="pink"] {
   background-color: var(--tile-pink-background);
   border: 2px solid var(--tile-pink-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
 }
 
 .game-tile[data-state="blue"],
@@ -155,6 +156,7 @@ header {
 .daily-code-dot[data-state="blue"] {
   background-color: var(--tile-blue-background);
   border: 2px solid var(--tile-blue-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
 }
 
 .game-tile[data-state="green"],
@@ -162,6 +164,7 @@ header {
 .daily-code-dot[data-state="green"] {
   background-color: var(--tile-green-background);
   border: 2px solid var(--tile-green-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
 }
 
 .game-tile[data-state="yellow"],
@@ -169,6 +172,7 @@ header {
 .daily-code-dot[data-state="yellow"] {
   background-color: var(--tile-yellow-background);
   border: 2px solid var(--tile-yellow-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
 }
 
 .game-tile[data-state="orange"],
@@ -176,6 +180,7 @@ header {
 .daily-code-dot[data-state="orange"] {
   background-color: var(--tile-orange-background);
   border: 2px solid var(--tile-orange-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
 }
 
 .game-tile[data-state="purple"],
@@ -183,6 +188,7 @@ header {
 .daily-code-dot[data-state="purple"] {
   background-color: var(--tile-purple-background);
   border: 2px solid var(--tile-purple-border);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
 }
 
 #daily-code-display {
@@ -222,6 +228,7 @@ header {
 
 .codeboard-tile {
   width: clamp(45px, 10vw, 55px);
+  box-shadow:inset 2px 2px 2px 2px rgb(249, 249, 249, 0.15); 
   border-radius: 30%;
   aspect-ratio: 1 / 1;
   display: inline-flex;
