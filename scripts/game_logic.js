@@ -112,9 +112,10 @@ function deleteLastFilledTileInActiveRow() {
 const DAILY_TARGET_CODE = getDailyTargetCode();
 const LOCKED_CORRECT_TILES = Array(DAILY_TARGET_CODE.length).fill(null);
 
+// Prefill function only happens on the easy game mode.
 function shouldPrefillCorrectTilesForCurrentGame() {
   const currentPage = window.location.pathname.split("/").pop();
-  return currentPage === "easy_game.html" || currentPage === "medium_game.html";
+  return currentPage === "easy_game.html";
 }
 
 // Tiles that are correctly guessed are prefilled in the next active row.
