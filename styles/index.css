@@ -42,18 +42,18 @@
   --sm-btn-text-color: #878686;
 
   /* tile colours */
-  --tile-pink-background: #ff6cbd;
+  --tile-pink-background: #fb65bf;
   --tile-pink-border: #c35c95;
   --tile-blue-background: #4bbcfd;
   --tile-blue-border: #3a92c6;
-  --tile-green-background: #15c664;
-  --tile-green-border: #026b4f;
-  --tile-yellow-background: #fbe058;
-  --tile-yellow-border: #d89700;
-  --tile-orange-background: #ff9437;
+  --tile-green-background: #09d766;
+  --tile-green-border: #0e944a;
+  --tile-yellow-background: #ffd900;
+  --tile-yellow-border: #d4ad00;
+  --tile-orange-background: #ff8437;
   --tile-orange-border: #de5900;
-  --tile-purple-background: #e77bd8;
-  --tile-purple-border: #602a57;
+  --tile-purple-background: #db4cf4;
+  --tile-purple-border: #9f19b7;
   --tile-brown-background: #d36e33;
   --tile-brown-border: #82431e;
   --tile-red-background: #f75353;
@@ -72,18 +72,25 @@
   --empty-peg-color: #212932;
   --white-peg-border: #c9d5e1;
   --grey-peg-color: #455365;
-  --grey-peg-border: #556579;
+  --grey-peg-border: #424e5d;
+  --sm-btn-text-color: #939292;
+  --sm-btn-border-color: #858585;
 }
 
 :root[data-contrast="high"] {
   --tile-pink-background: #cc79a7;
   --tile-blue-background: #56b4e9;
   --tile-green-background: #017d5c;
+  --tile-green-border: #026b4f;
   --tile-yellow-background: #ffb300;
+  --tile-yellow-border: #d89700;
   --tile-orange-background: #ff6800;
   --tile-purple-background: #803e75;
+  --tile-purple-border: #602a57;
   --tile-brown-background: #c6bab3;
   --tile-brown-border: #b4a399;
   --tile-red-background: #c10020;
   --tile-red-border: #9f011b;
+  --empty-tile-color: #797979;
+  --sm-btn-border-color: #797979;
 }
