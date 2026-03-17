@@ -15,7 +15,25 @@
   <div class="container">
     <div class="game-container">
       <header class="toolbar-header">
-        <section class="toolbar-section"></section>
+        <section class="toolbar-section">
+          <div class="settings-menu">
+            <button class="settings-cog-button" id="settings-cog-button" type="button" aria-label="Open settings menu"
+              aria-haspopup="true" aria-expanded="false" aria-controls="settings-dropdown">
+              <img class="settings-cog-icon" src="../assets/settings-cog.svg" alt="" aria-hidden="true">
+            </button>
+            <div class="settings-dropdown hidden" id="settings-dropdown" role="menu" aria-label="Settings">
+              <h2>Settings</h2>
+              <label class="settings-option" for="dark-mode-toggle">
+                <span>Dark mode</span>
+                <input id="dark-mode-toggle" type="checkbox" role="menuitemcheckbox">
+              </label>
+              <label class="settings-option" for="high-contrast-mode-toggle">
+                <span>High Contrast mode</span>
+                <input id="high-contrast-mode-toggle" type="checkbox" role="menuitemcheckbox">
+              </label>
+            </div>
+          </div>
+        </section>
       </header>
       <main class="game-module">
         <div class="game-board-container">
