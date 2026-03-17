@@ -22,13 +22,19 @@
               <img class="settings-cog-icon" src="../assets/settings-cog.svg" alt="" aria-hidden="true">
             </button>
             <div class="settings-dropdown hidden" id="settings-dropdown" role="menu" aria-label="Settings">
+              <button class="settings-close-button" id="settings-close-button" type="button" aria-label="Close settings menu">
+                <img class="settings-close-icon" src="../assets/X.svg" alt="" aria-hidden="true">
+              </button>
               <h2>Settings</h2>
               <label class="settings-option" for="dark-mode-toggle">
                 <span>Dark mode</span>
                 <input id="dark-mode-toggle" type="checkbox" role="menuitemcheckbox">
               </label>
               <label class="settings-option" for="high-contrast-mode-toggle">
-                <span>High Contrast mode</span>
+                <span class="settings-option-copy">
+                  <span class="settings-option-title">High Contrast mode</span>
+                  <span class="settings-option-subtitle">Contrast and colourblindess improvements</span>
+                </span>
                 <input id="high-contrast-mode-toggle" type="checkbox" role="menuitemcheckbox">
               </label>
             </div>
