@@ -1,5 +1,86 @@
 // UI wiring for game interactions. Depends on window.CryptleGameLogic.
 
+const THEME_STORAGE_KEY = "cryptle-game-theme";
+const CONTRAST_STORAGE_KEY = "cryptle-game-contrast";
+
+function getPreferredTheme() {
+  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  if (savedTheme === "dark" || savedTheme === "light") {
+    return savedTheme;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function getPreferredContrast() {
+  const savedContrast = localStorage.getItem(CONTRAST_STORAGE_KEY);
+  if (savedContrast === "high" || savedContrast === "normal") {
+    return savedContrast;
+  }
+
+  return window.matchMedia("(prefers-contrast: more)").matches ? "high" : "normal";
+}
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem(THEME_STORAGE_KEY, theme);
+}
+
+function applyContrast(contrast) {
+  document.documentElement.dataset.contrast = contrast;
+  localStorage.setItem(CONTRAST_STORAGE_KEY, contrast);
+}
+
+function setupSettingsMenu() {
+  const settingsMenu = document.querySelector(".settings-menu");
+  const settingsButton = document.getElementById("settings-cog-button");
+  const settingsDropdown = document.getElementById("settings-dropdown");
+  const darkModeToggle = document.getElementById("dark-mode-toggle");
+  const highContrastModeToggle = document.getElementById("high-contrast-mode-toggle");
+
+  if (!settingsMenu || !settingsButton || !settingsDropdown || !darkModeToggle || !highContrastModeToggle) {
+    return;
+  }
+
+  const startingTheme = getPreferredTheme();
+  const startingContrast = getPreferredContrast();
+  applyTheme(startingTheme);
+  applyContrast(startingContrast);
+  darkModeToggle.checked = startingTheme === "dark";
+  highContrastModeToggle.checked = startingContrast === "high";
+
+  const setMenuState = (isOpen) => {
+    settingsDropdown.classList.toggle("hidden", !isOpen);
+    settingsButton.setAttribute("aria-expanded", String(isOpen));
+  };
+
+  settingsButton.addEventListener("click", () => {
+    const isCurrentlyOpen = !settingsDropdown.classList.contains("hidden");
+    setMenuState(!isCurrentlyOpen);
+  });
+
+  darkModeToggle.addEventListener("change", () => {
+    applyTheme(darkModeToggle.checked ? "dark" : "light");
+  });
+
+  highContrastModeToggle.addEventListener("change", () => {
+    applyContrast(highContrastModeToggle.checked ? "high" : "normal");
+  });
+
+  document.addEventListener("click", (event) => {
+    const clickedInsideMenu = settingsMenu.contains(event.target);
+    if (!clickedInsideMenu) {
+      setMenuState(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      setMenuState(false);
+    }
+  });
+}
+
 // Handle clicks on the codeboard tiles.
 function handleCodeboardTileClick(event) {
   const clickedTile = event.target.closest(".codeboard-tile");
@@ -32,6 +113,7 @@ function renderDailyCodeDisplay() {
 
 // Wire all click handlers once after the DOM is ready.
 document.addEventListener("DOMContentLoaded", () => {
+  setupSettingsMenu();
   renderDailyCodeDisplay();
   document.addEventListener("click", handleCodeboardTileClick);
 
