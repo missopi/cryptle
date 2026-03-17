@@ -5,6 +5,7 @@ html {
 body {
   height: 100%;
   background-color: var(--game-color-background);
+  color: var(--game-text-color);
   margin: 0;
   padding: 0;
   overflow-y: hidden;
@@ -36,8 +37,84 @@ header {
 
 .toolbar-section {
   height: 48px;
-  justify-content: space-between;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   padding: 0 var(--horizontal-spacing-2) 0 0;
+  position: relative;
+}
+
+.settings-menu {
+  position: relative;
+}
+
+.settings-cog-button {
+  width: 35px;
+  height: 35px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--settings-cog-color);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.settings-cog-icon {
+  width: 25px;
+  height: 25px;
+  display: block;
+}
+
+:root[data-theme="dark"] .settings-cog-icon {
+  filter: brightness(0) invert(1);
+}
+
+.settings-cog-button:focus-visible {
+  outline: 2px solid var(--settings-border-color);
+  outline-offset: 2px;
+}
+
+.settings-dropdown {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(500px, calc(100vw - 32px));
+  background-color: var(--settings-surface-color);
+  border: 1px solid var(--settings-border-color);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  color: var(--settings-text-color);
+  z-index: 200;
+  padding: 6px 5px 20px;
+}
+
+.settings-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-option:hover {
+  background: var(--settings-hover-color);
+}
+
+.settings-option input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.settings-dropdown h2 {
+  text-align: center;
+  margin: 10px 12px 8px;
 }
 
 .container {
