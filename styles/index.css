@@ -6,6 +6,12 @@
   --cryptle-icon: url('../assets/logo.svg');
   --color-background: #8ebdce;
   --game-color-background: #ffffff;
+  --game-text-color: #111111;
+  --settings-surface-color: #ffffff;
+  --settings-border-color: #d0d7de;
+  --settings-text-color: #111111;
+  --settings-hover-color: #f5f6f8;
+  --settings-cog-color: #222222;
   --empty-tile-color: #cbcdd1;
 
   /* Spacing variables */
@@ -26,6 +32,7 @@
   --white-peg-color: #ffffff;
   --white-peg-border: #757575;
   --grey-peg-color: #a2a2a2;
+  --grey-peg-border: #757575;
   --empty-peg-color: #f4f4f4;
 
   /* Button styles */
@@ -35,18 +42,46 @@
   --sm-btn-text-color: #878686;
 
   /* tile colours */
-  --tile-pink-background: #cc79a7;
+  --tile-pink-background: #ff75c1;
   --tile-pink-border: #c35c95;
-  --tile-blue-background: #56b4e9;
+  --tile-blue-background: #4ab6f5;
   --tile-blue-border: #3a92c6;
-  --tile-green-background: #017d5c;
+  --tile-green-background: #00a74b;
   --tile-green-border: #026b4f;
-  --tile-yellow-background: #ffb300;
+  --tile-yellow-background: #ffd500;
   --tile-yellow-border: #d89700;
-  --tile-orange-background: #ff6800;
+  --tile-orange-background: #ff7700;
   --tile-orange-border: #de5900;
-  --tile-purple-background: #803e75;
+  --tile-purple-background: #bd50ae;
   --tile-purple-border: #602a57;
+  --tile-brown-background: #b75720;
+  --tile-brown-border: #82431e;
+  --tile-red-background: #e02525;
+  --tile-red-border: #9f0e0e;
+}
+
+:root[data-theme="dark"] {
+  --game-color-background: #12161c;
+  --game-text-color: #f0f3f8;
+  --settings-surface-color: #1d2630;
+  --settings-border-color: #34475a;
+  --settings-text-color: #f0f3f8;
+  --settings-hover-color: #253242;
+  --settings-cog-color: #f0f3f8;
+  --empty-tile-color: #4a5664;
+  --empty-peg-color: #212932;
+  --white-peg-border: #c9d5e1;
+  --grey-peg-color: #455365;
+  --grey-peg-border: #556579;
+}
+
+:root[data-theme="high-contrast"] {
+  --tile-pink-background: #cc79a7;
+  --tile-blue-background: #56b4e9;
+  --tile-green-background: #017d5c;
+  --tile-yellow-background: #ffb300;
+  --tile-orange-background: #ff6800;
+  --tile-purple-background: #803e75;
   --tile-brown-background: #c6bab3;
   --tile-brown-border: #b4a399;
   --tile-red-background: #c10020;
