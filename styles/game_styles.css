@@ -244,7 +244,7 @@ header {
 
 .game-peg[data-state="incorrect"] {
   background-color: var(--grey-peg-color);
-  border: 1.5px solid var(--white-peg-border);
+  border: 1.5px solid var(--grey-peg-border);
 }
 
 .game-tile-container {
