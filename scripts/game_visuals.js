@@ -34,11 +34,12 @@ function applyContrast(contrast) {
 function setupSettingsMenu() {
   const settingsMenu = document.querySelector(".settings-menu");
   const settingsButton = document.getElementById("settings-cog-button");
+  const settingsCloseButton = document.getElementById("settings-close-button");
   const settingsDropdown = document.getElementById("settings-dropdown");
   const darkModeToggle = document.getElementById("dark-mode-toggle");
   const highContrastModeToggle = document.getElementById("high-contrast-mode-toggle");
 
-  if (!settingsMenu || !settingsButton || !settingsDropdown || !darkModeToggle || !highContrastModeToggle) {
+  if (!settingsMenu || !settingsButton || !settingsCloseButton || !settingsDropdown || !darkModeToggle || !highContrastModeToggle) {
     return;
   }
 
@@ -57,6 +58,10 @@ function setupSettingsMenu() {
   settingsButton.addEventListener("click", () => {
     const isCurrentlyOpen = !settingsDropdown.classList.contains("hidden");
     setMenuState(!isCurrentlyOpen);
+  });
+
+  settingsCloseButton.addEventListener("click", () => {
+    setMenuState(false);
   });
 
   darkModeToggle.addEventListener("change", () => {
