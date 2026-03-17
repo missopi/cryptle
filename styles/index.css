@@ -42,21 +42,21 @@
   --sm-btn-text-color: #878686;
 
   /* tile colours */
-  --tile-pink-background: #ff75c1;
+  --tile-pink-background: #ff6cbd;
   --tile-pink-border: #c35c95;
-  --tile-blue-background: #4ab6f5;
+  --tile-blue-background: #4bbcfd;
   --tile-blue-border: #3a92c6;
-  --tile-green-background: #00a74b;
+  --tile-green-background: #15c664;
   --tile-green-border: #026b4f;
-  --tile-yellow-background: #ffd500;
+  --tile-yellow-background: #fbe058;
   --tile-yellow-border: #d89700;
-  --tile-orange-background: #ff7700;
+  --tile-orange-background: #ff9437;
   --tile-orange-border: #de5900;
-  --tile-purple-background: #bd50ae;
+  --tile-purple-background: #e77bd8;
   --tile-purple-border: #602a57;
-  --tile-brown-background: #b75720;
+  --tile-brown-background: #d36e33;
   --tile-brown-border: #82431e;
-  --tile-red-background: #e02525;
+  --tile-red-background: #f75353;
   --tile-red-border: #9f0e0e;
 }
 
@@ -75,7 +75,7 @@
   --grey-peg-border: #556579;
 }
 
-:root[data-theme="high-contrast"] {
+:root[data-contrast="high"] {
   --tile-pink-background: #cc79a7;
   --tile-blue-background: #56b4e9;
   --tile-green-background: #017d5c;
