@@ -37,9 +37,17 @@
                 </span>
                 <input id="high-contrast-mode-toggle" type="checkbox" role="menuitemcheckbox">
               </label>
-              <label class="settings-option">
+              <button class="settings-option settings-link-button" id="how-to-play-button" type="button">
                 <span class="settings-option-title">How to Play</span>
-              </label>
+              </button>
+            </div>
+            <div class="settings-dropdown how-to-play-modal hidden" id="how-to-play-modal" role="dialog" aria-modal="true" aria-labelledby="how-to-play-title">
+              <button class="settings-close-button" id="how-to-play-close-button" type="button" aria-label="Close how to play">
+                <img class="settings-close-icon" src="../assets/X.svg" alt="" aria-hidden="true">
+              </button>
+              <h2 id="how-to-play-title">How to Play</h2>
+              <p>Solve the 4-colour code in 6 guesses.</p>
+              <p>After each guess, pegs show feedback: red is correct colour and position, white is correct colour in a different position, grey is not in the code.</p>
             </div>
           </div>
         </section>

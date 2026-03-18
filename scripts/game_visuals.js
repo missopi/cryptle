@@ -36,10 +36,23 @@ function setupSettingsMenu() {
   const settingsButton = document.getElementById("settings-cog-button");
   const settingsCloseButton = document.getElementById("settings-close-button");
   const settingsDropdown = document.getElementById("settings-dropdown");
+  const howToPlayButton = document.getElementById("how-to-play-button");
+  const howToPlayModal = document.getElementById("how-to-play-modal");
+  const howToPlayCloseButton = document.getElementById("how-to-play-close-button");
   const darkModeToggle = document.getElementById("dark-mode-toggle");
   const highContrastModeToggle = document.getElementById("high-contrast-mode-toggle");
 
-  if (!settingsMenu || !settingsButton || !settingsCloseButton || !settingsDropdown || !darkModeToggle || !highContrastModeToggle) {
+  if (
+    !settingsMenu ||
+    !settingsButton ||
+    !settingsCloseButton ||
+    !settingsDropdown ||
+    !howToPlayButton ||
+    !howToPlayModal ||
+    !howToPlayCloseButton ||
+    !darkModeToggle ||
+    !highContrastModeToggle
+  ) {
     return;
   }
 
@@ -55,13 +68,29 @@ function setupSettingsMenu() {
     settingsButton.setAttribute("aria-expanded", String(isOpen));
   };
 
+  const setHowToPlayState = (isOpen) => {
+    howToPlayModal.classList.toggle("hidden", !isOpen);
+  };
+
   settingsButton.addEventListener("click", () => {
     const isCurrentlyOpen = !settingsDropdown.classList.contains("hidden");
     setMenuState(!isCurrentlyOpen);
+    if (!isCurrentlyOpen) {
+      setHowToPlayState(false);
+    }
   });
 
   settingsCloseButton.addEventListener("click", () => {
     setMenuState(false);
+  });
+
+  howToPlayButton.addEventListener("click", () => {
+    setMenuState(false);
+    setHowToPlayState(true);
+  });
+
+  howToPlayCloseButton.addEventListener("click", () => {
+    setHowToPlayState(false);
   });
 
   darkModeToggle.addEventListener("change", () => {
@@ -74,16 +103,21 @@ function setupSettingsMenu() {
 
   document.addEventListener("click", (event) => {
     const clickedInsideMenu = settingsMenu.contains(event.target);
-    if (!clickedInsideMenu) {
+    const clickedInsideHowToPlay = howToPlayModal.contains(event.target);
+    if (!clickedInsideMenu && !clickedInsideHowToPlay) {
       setMenuState(false);
+      setHowToPlayState(false);
     }
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       setMenuState(false);
+      setHowToPlayState(false);
     }
   });
+
+  setHowToPlayState(true);
 }
 
 // Handle clicks on the codeboard tiles.
