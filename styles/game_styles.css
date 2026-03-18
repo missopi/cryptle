@@ -178,6 +178,15 @@ header {
   line-height: 1.4;
 }
 
+.how-to-play-peg {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 .container {
   flex: 1;
   display: flex;
@@ -246,17 +255,17 @@ header {
   background-color: var(--empty-peg-color);
 }
 
-.game-peg[data-state="correct"] {
+.game-peg[data-state="correct"], .how-to-play-peg[data-state="correct"] {
   background-color: var(--red-peg-color);
   border: 1.5px solid var(--red-peg-border);
 }
 
-.game-peg[data-state="almost"] {
+.game-peg[data-state="almost"], .how-to-play-peg[data-state="almost"] {
   background-color: var(--white-peg-color);
   border: 1.5px solid var(--white-peg-border);
 }
 
-.game-peg[data-state="incorrect"] {
+.game-peg[data-state="incorrect"], .how-to-play-peg[data-state="incorrect"] {
   background-color: var(--grey-peg-color);
   border: 1.5px solid var(--grey-peg-border);
 }

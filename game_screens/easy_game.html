@@ -47,7 +47,10 @@
               </button>
               <h2 id="how-to-play-title">How to Play</h2>
               <p>Solve the 4-colour code in 6 guesses.</p>
-              <p>After each guess, pegs show feedback: red is correct colour and position, white is correct colour in a different position, grey is not in the code.</p>
+              <p>After each guess, pegs show feedback:</p>
+              <p><span class="how-to-play-peg" data-state="correct" aria-hidden="true"></span> Correct colour and position</p>
+              <p><span class="how-to-play-peg" data-state="almost" aria-hidden="true"></span> Correct colour in a different position</p>
+              <p><span class="how-to-play-peg" data-state="incorrect" aria-hidden="true"></span> Not in the code</p>
             </div>
           </div>
         </section>
