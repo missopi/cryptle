@@ -240,6 +240,7 @@ function compareCompletedCodeToDailyCode(completedCode = returnCompletedTileRowC
 // Expose the game logic and state management functions so they can be accessed in game_visuals.js.
 window.CryptleGameLogic = {
   VALID_TILE_STATES,
+  getDateKey,
   getDailyTargetCode,
   DAILY_TARGET_CODE,
   fillFirstEmptyTileInActiveRow,

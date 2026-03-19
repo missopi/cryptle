@@ -7,6 +7,67 @@ const SHARE_SYMBOLS_BY_STATE = {
   almost: "⬜",
   incorrect: "⬛",
 };
+const DAILY_COMPLETION_KEY_PREFIX = "cryptle:completed"; 
+let isDailyLockActive = false;
+
+// Ascertain current game difficulty
+function getGameModeLabel(pathname = window.location.pathname) {
+  const currentPage = pathname.split("/").pop();
+  if (currentPage === "easy_game.html") return "easy";
+  if (currentPage === "hard_game.html") return "hard";
+  return "medium";
+}
+
+// Tracking which game the user has done for the completion data
+function getDailyCompletionStorageKey(date = new Date()) {
+  const difficulty = getGameModeLabel();
+  const dateKey = window.CryptleGameLogic?.getDateKey?.(date);
+  return `${DAILY_COMPLETION_KEY_PREFIX}:${dateKey}:${difficulty}`;
+}
+
+// Daily completion marked so that the user only completes the code once each day and is locked
+function markTodayCompleted() {
+  localStorage.setItem(getDailyCompletionStorageKey(), "true");
+}
+
+function hasCompletedToday() {
+  return localStorage.getItem(getDailyCompletionStorageKey()) === "true";
+}
+
+function syncShareVisibility() {
+  const shareContainer = document.getElementById("share-results-container");
+  if (!shareContainer) return;
+  shareContainer.classList.toggle("hidden", hasCompletedToday());
+}
+
+function applyDailyCompletionLock() {
+  if (!hasCompletedToday()) return false;
+
+  isDailyLockActive = true;
+
+  const gameOverMessage = document.getElementById("game-over-message");
+  const dailyCodeContainer = document.getElementById("daily-code-container");
+  const gameCodeboard = document.querySelector(".game-codeboard");
+  const gameBoardContainer = document.querySelector(".game-board-container");
+  const codeboardElementsToHide = document.querySelectorAll(
+    ".codeboard-row, .code-actions-row",
+  );
+
+  if (gameOverMessage) {
+    gameOverMessage.textContent = "You already completed today's game. Come back tomorrow.";
+  }
+
+  dailyCodeContainer?.classList.remove("hidden");
+  gameCodeboard?.classList.add("game-over");
+  if (gameBoardContainer) {
+    gameBoardContainer.style.display = "none";
+  }
+  codeboardElementsToHide.forEach((element) => {
+    element.style.display = "none";
+  });
+
+  return true;
+}
 
 function getPreferredTheme() {
   const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
@@ -122,11 +183,13 @@ function setupSettingsMenu() {
     }
   });
 
-  setHowToPlayState(true);
+  setHowToPlayState(!isDailyLockActive);
 }
 
 // Handle clicks on the codeboard tiles.
 function handleCodeboardTileClick(event) {
+  if (isDailyLockActive) return;
+
   const clickedTile = event.target.closest(".codeboard-tile");
   if (!clickedTile) return;
 
@@ -157,6 +220,8 @@ function renderDailyCodeDisplay() {
 
 // Wire all click handlers once after the DOM is ready.
 document.addEventListener("DOMContentLoaded", () => {
+  applyDailyCompletionLock();
+  syncShareVisibility();
   setupSettingsMenu();
   renderDailyCodeDisplay();
   setupShareResults();
@@ -165,12 +230,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Delete button: remove the last filled tile in the current editable row.
   const deleteButton = document.getElementById("delete-button");
   deleteButton?.addEventListener("click", () => {
+    if (isDailyLockActive) return;
     window.CryptleGameLogic?.deleteLastFilledTileInActiveRow();
   });
 
   // Enter button: submit the current completed row.
   const enterButton = document.getElementById("enter-button");
   enterButton?.addEventListener("click", () => {
+    if (isDailyLockActive) return;
     const submission = window.CryptleGameLogic?.submitActiveRow();
 
     if (!submission) {
@@ -236,6 +303,9 @@ function isGameOver(comparison) {
 }
 
 function onGameOver(comparison) {
+  markTodayCompleted();
+  syncShareVisibility();
+  isDailyLockActive = true;
   const gameLogic = window.CryptleGameLogic;
   const gameOverMessage = document.getElementById("game-over-message");
   const codeLength = gameLogic?.DAILY_TARGET_CODE.length ?? 0;
@@ -251,6 +321,7 @@ function onGameOver(comparison) {
   }
   const dailyCodeContainer = document.getElementById("daily-code-container");
   const gameCodeboard = document.querySelector(".game-codeboard");
+  const gameBoardContainer = document.querySelector(".game-board-container");
 
   dailyCodeContainer?.classList.remove("hidden");
   gameCodeboard?.classList.add("game-over");
@@ -263,14 +334,10 @@ function onGameOver(comparison) {
     element.style.display = "none";
   });
 
-}
-
-// Ascertain current game difficulty
-function getGameModeLabel(pathname = window.location.pathname) {
-  const currentPage = pathname.split("/").pop();
-  if (currentPage === "easy_game.html") return "Easy";
-  if (currentPage === "hard_game.html") return "Hard";
-  return "Medium";
+  gameCodeboard?.classList.add("game-over");
+  if (gameBoardContainer) {
+    gameBoardContainer.style.display = "none";
+  }
 }
 
 // Functions for sharing game data for user to clipboard
