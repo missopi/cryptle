@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     returnPegFeedback(submission.row, submission.comparison);
 
     if (isGameOver(submission.comparison)) {
-      onGameOver();
+      onGameOver(submission.comparison);
     }
   });
 });
@@ -229,7 +229,20 @@ function isGameOver(comparison) {
   return allGuessesUsed;
 }
 
-function onGameOver() {
+function onGameOver(comparison) {
+  const gameLogic = window.CryptleGameLogic;
+  const gameOverMessage = document.getElementById("game-over-message");
+  const codeLength = gameLogic?.DAILY_TARGET_CODE.length ?? 0;
+  const isWinningGuess = comparison?.sameOrderCount === codeLength;
+
+  if (gameOverMessage) {
+    if (isWinningGuess) {
+      gameOverMessage.innerHTML =
+        '<span class="game-over-title">Congratulations!</span> <span class="game-over-subtext">You guessed the code.</span>';
+    } else {
+      gameOverMessage.textContent = "You didn't crack today's code. Try again tomorrow.";
+    }
+  }
   const dailyCodeContainer = document.getElementById("daily-code-container");
   const gameCodeboard = document.querySelector(".game-codeboard");
 

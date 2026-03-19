@@ -450,3 +450,23 @@ header {
     min-width: 320px;
   }
 }
+
+.game-over-message {
+  margin: 28px 0 0;
+  text-align: center;
+  font-size: 24px;
+  max-width: 280px;
+}
+
+.game-over-title {
+  margin: 28px 0 0;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.game-over-subtext {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 22px;
+}
