@@ -238,7 +238,7 @@ function onGameOver(comparison) {
   if (gameOverMessage) {
     if (isWinningGuess) {
       gameOverMessage.innerHTML =
-        '<span class="game-over-title">Congratulations!</span> <span class="game-over-subtext">You guessed the code.</span>';
+        '<span class="game-over-title">Congratulations!</span> <span class="game-over-subtext">You guessed today&apos;s code.</span>';
     } else {
       gameOverMessage.textContent = "You didn't crack today's code. Try again tomorrow.";
     }
