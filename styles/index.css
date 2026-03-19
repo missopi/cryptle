@@ -40,6 +40,9 @@
   --text-btn-primary: #ffffff;
   --sm-btn-border-color: #828181;
   --sm-btn-text-color: #787878;
+  --share-btn-color: rgb(87, 198, 67);
+  --share-border-color: rgb(71, 167, 54);
+
 
   /* tile colours */
   --tile-pink-background: #fb65bf;

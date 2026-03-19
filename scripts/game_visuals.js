@@ -2,6 +2,11 @@
 
 const THEME_STORAGE_KEY = "cryptle-game-theme";
 const CONTRAST_STORAGE_KEY = "cryptle-game-contrast";
+const SHARE_SYMBOLS_BY_STATE = {
+  correct: "🟥",
+  almost: "⬜",
+  incorrect: "⬛",
+};
 
 function getPreferredTheme() {
   const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
@@ -154,6 +159,7 @@ function renderDailyCodeDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
   setupSettingsMenu();
   renderDailyCodeDisplay();
+  setupShareResults();
   document.addEventListener("click", handleCodeboardTileClick);
 
   // Delete button: remove the last filled tile in the current editable row.
@@ -255,5 +261,86 @@ function onGameOver(comparison) {
 
   codeboardElementsToHide.forEach((element) => {
     element.style.display = "none";
+  });
+
+}
+
+// Ascertain current game difficulty
+function getGameModeLabel(pathname = window.location.pathname) {
+  const currentPage = pathname.split("/").pop();
+  if (currentPage === "easy_game.html") return "Easy";
+  if (currentPage === "hard_game.html") return "Hard";
+  return "Medium";
+}
+
+// Functions for sharing game data for user to clipboard
+function getShareResultLabel() {
+  const gameLogic = window.CryptleGameLogic;
+  if (!gameLogic) return "X/6";
+
+  const lockedRows = Array.from(document.querySelectorAll('.game-row[data-locked="true"]'));
+  const winningIndex = lockedRows.findIndex((row) => {
+    const rowColours = Array.from(row.querySelectorAll(".game-tile")).map((tile) => {
+      return tile.dataset.state;
+    });
+    return rowColours.every((colour, index) => colour === gameLogic.DAILY_TARGET_CODE[index]);
+  });
+
+  if (winningIndex === -1) return "X/6";
+  return `${winningIndex + 1}/6`;
+}
+
+function mapPegStateToShareSymbol(pegState) {
+  return SHARE_SYMBOLS_BY_STATE[pegState] ?? SHARE_SYMBOLS_BY_STATE.incorrect;
+}
+
+function getShareGridRows() {
+  const lockedRows = Array.from(document.querySelectorAll('.game-row[data-locked="true"]'));
+  return lockedRows.map((row) => {
+    const pegs = Array.from(row.querySelectorAll(".game-peg"));
+    return pegs.map((peg) => mapPegStateToShareSymbol(peg.dataset.state)).join("");
+  });
+}
+
+function buildShareText() {
+  const modeLabel = getGameModeLabel();
+  const resultLabel = getShareResultLabel();
+  const gridRows = getShareGridRows();
+  const gridText = gridRows.join("\n");
+
+  return `Cryptle ${modeLabel} ${resultLabel}\n${gridText}`;
+}
+
+async function copyShareTextToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const fallbackTextArea = document.createElement("textarea");
+  fallbackTextArea.value = text;
+  fallbackTextArea.setAttribute("readonly", "");
+  fallbackTextArea.style.position = "absolute";
+  fallbackTextArea.style.left = "-9999px";
+  document.body.appendChild(fallbackTextArea);
+  fallbackTextArea.select();
+  document.execCommand("copy");
+  document.body.removeChild(fallbackTextArea);
+}
+
+function setupShareResults() {
+  const shareButton = document.getElementById("share-results-button");
+  const shareFeedback = document.getElementById("share-results-feedback");
+  if (!shareButton || !shareFeedback) return;
+
+  shareButton.addEventListener("click", async () => {
+    const shareText = buildShareText();
+
+    try {
+      await copyShareTextToClipboard(shareText);
+      shareFeedback.textContent = "Copied result to clipboard.";
+    } catch (error) {
+      shareFeedback.textContent = "Unable to copy right now. Please try again.";
+    }
   });
 }
