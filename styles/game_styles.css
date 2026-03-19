@@ -11,6 +11,14 @@ body {
   overflow-y: hidden;
 }
 
+.game-container,
+.codeboard-tile,
+.code-action-button,
+.settings-cog-button,
+.settings-close-button {
+  touch-action: manipulation;
+}
+
 div {
   margin: 0;
   padding: 0;
