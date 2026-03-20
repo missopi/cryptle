@@ -470,7 +470,7 @@ function buildShareText() {
   const gridRows = getShareGridRows();
   const gridText = gridRows.join("\n");
 
-  return `${modeLabel} ${resultLabel}\n${gridText}`;
+  return `Cryptle ${modeLabel} ${resultLabel}\n${gridText}`;
 }
 
 async function copyShareTextToClipboard(text) {
