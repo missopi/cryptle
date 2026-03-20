@@ -107,6 +107,7 @@ function setupSettingsMenu() {
   const howToPlayCloseButton = document.getElementById("how-to-play-close-button");
   const darkModeToggle = document.getElementById("dark-mode-toggle");
   const highContrastModeToggle = document.getElementById("high-contrast-mode-toggle");
+  let lastTrigger = null;
 
   if (
     !settingsMenu ||
@@ -132,10 +133,26 @@ function setupSettingsMenu() {
   const setMenuState = (isOpen) => {
     settingsDropdown.classList.toggle("hidden", !isOpen);
     settingsButton.setAttribute("aria-expanded", String(isOpen));
+    settingsDropdown.setAttribute("aria-hidden", String(!isOpen));
+
+    if (isOpen) {
+      lastTrigger = settingsButton;
+      settingsCloseButton.focus();
+    } else if (lastTrigger === settingsButton) {
+      settingsButton.focus();
+    }
   };
 
   const setHowToPlayState = (isOpen) => {
     howToPlayModal.classList.toggle("hidden", !isOpen);
+    howToPlayModal.setAttribute("aria-hidden", String(!isOpen));
+
+    if (isOpen) {
+      lastTrigger = howToPlayButton;
+      howToPlayCloseButton.focus();
+    } else if (lastTrigger === howToPlayButton) {
+      howToPlayButton.focus();
+    }
   };
 
   settingsButton.addEventListener("click", () => {
@@ -157,6 +174,7 @@ function setupSettingsMenu() {
 
   howToPlayCloseButton.addEventListener("click", () => {
     setHowToPlayState(false);
+    settingsButton.focus();
   });
 
   darkModeToggle.addEventListener("change", () => {
@@ -180,6 +198,7 @@ function setupSettingsMenu() {
     if (event.key === "Escape") {
       setMenuState(false);
       setHowToPlayState(false);
+      settingsButton.focus();
     }
   });
 
@@ -213,6 +232,7 @@ function renderDailyCodeDisplay() {
     const colourDot = document.createElement("span");
     colourDot.className = "daily-code-dot";
     colourDot.dataset.state = colour;
+    colourDot.setAttribute("role", "img");
     colourDot.setAttribute("aria-label", colour);
     display.appendChild(colourDot);
   });
