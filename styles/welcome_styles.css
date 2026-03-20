@@ -165,3 +165,22 @@ body {
   font-weight: 400;
   margin-top: var(--vertical-spacing-0-5);
 }
+
+.welcome-module-footer {
+  padding: calc(var(--vertical-spacing-2) * 1.5) 0 calc(var(--vertical-spacing-2) * 2);
+  color: var(--bg-btn-primary);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.welcome-module-footer-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.welcome-module-footer-link:hover,
+.welcome-module-footer-link:focus-visible {
+  text-decoration: underline;
+}
