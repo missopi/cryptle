@@ -354,7 +354,7 @@ function onGameOver(comparison) {
   markTodayCompleted();
 }
 
-// Functions for sharing game data for user to clipboard
+// Functions for sharing game data
 function getShareResultLabel() {
   const gameLogic = window.CryptleGameLogic;
   if (!gameLogic) return "X/6";
@@ -409,6 +409,24 @@ async function copyShareTextToClipboard(text) {
   document.body.removeChild(fallbackTextArea);
 }
 
+async function shareResults(text) {
+  const shareData = {
+    title: "Cryptle",
+    text,
+    url: window.location.href,
+  };
+
+  if (navigator.share) {
+    if (!navigator.canShare || navigator.canShare(shareData)) {
+      await navigator.share(shareData);
+      return "shared";
+    }
+  }
+
+  await copyShareTextToClipboard(text);
+  return "copied";
+}
+
 function setupShareResults() {
   const shareButton = document.getElementById("share-results-button");
   const shareFeedback = document.getElementById("share-results-feedback");
@@ -418,9 +436,17 @@ function setupShareResults() {
     const shareText = buildShareText();
 
     try {
-      await copyShareTextToClipboard(shareText);
-      shareFeedback.textContent = "Copied result to clipboard.";
+      const result = await shareResults(shareText);
+      shareFeedback.textContent =
+        result === "shared"
+          ? "Opened share options."
+          : "Copied result to clipboard.";
     } catch (error) {
+      if (error?.name === "AbortError") {
+        shareFeedback.textContent = "";
+        return;
+      }
+
       shareFeedback.textContent = "Unable to copy right now. Please try again.";
     }
   });
