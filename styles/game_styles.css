@@ -14,6 +14,7 @@ body {
 .game-container,
 .codeboard-tile,
 .code-action-button,
+.back-button,
 .settings-cog-button,
 .settings-close-button {
   touch-action: manipulation;
@@ -48,15 +49,17 @@ header {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding: 0 var(--horizontal-spacing-2) 0 0;
+  justify-content: space-between;
+  padding: 0 var(--horizontal-spacing-2);
   position: relative;
 }
 
+.back-button,
 .settings-menu {
   position: relative;
 }
 
+.back-button,
 .settings-cog-button {
   width: 35px;
   height: 35px;
@@ -71,6 +74,17 @@ header {
   padding: 0;
 }
 
+.back-button {
+  text-decoration: none;
+}
+
+.back-button-icon {
+  width: 35px;
+  height: 35px;
+  display: block;
+  stroke: currentColor;
+}
+
 .settings-cog-icon {
   width: 25px;
   height: 25px;
@@ -81,6 +95,7 @@ header {
   filter: brightness(0) invert(1);
 }
 
+.back-button:focus-visible,
 .settings-cog-button:focus-visible {
   outline: 2px solid var(--settings-border-color);
   outline-offset: 2px;
