@@ -7,7 +7,7 @@ const SHARE_SYMBOLS_BY_STATE = {
   almost: "⬜",
   incorrect: "⬛",
 };
-const DAILY_COMPLETION_KEY_PREFIX = "cryptle:completed"; 
+const DAILY_COMPLETION_KEY_PREFIX = "cryptle:completed";
 let isDailyLockActive = false;
 
 // Ascertain current game difficulty
@@ -303,8 +303,6 @@ function isGameOver(comparison) {
 }
 
 function onGameOver(comparison) {
-  markTodayCompleted();
-  syncShareVisibility();
   isDailyLockActive = true;
   const gameLogic = window.CryptleGameLogic;
   const gameOverMessage = document.getElementById("game-over-message");
@@ -321,7 +319,6 @@ function onGameOver(comparison) {
   }
   const dailyCodeContainer = document.getElementById("daily-code-container");
   const gameCodeboard = document.querySelector(".game-codeboard");
-  const gameBoardContainer = document.querySelector(".game-board-container");
 
   dailyCodeContainer?.classList.remove("hidden");
   gameCodeboard?.classList.add("game-over");
@@ -334,10 +331,7 @@ function onGameOver(comparison) {
     element.style.display = "none";
   });
 
-  gameCodeboard?.classList.add("game-over");
-  if (gameBoardContainer) {
-    gameBoardContainer.style.display = "none";
-  }
+  markTodayCompleted();
 }
 
 // Functions for sharing game data for user to clipboard
