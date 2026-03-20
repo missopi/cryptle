@@ -405,7 +405,6 @@ async function shareResults(text) {
   const shareData = {
     title: "Cryptle",
     text,
-    url: window.location.href,
   };
 
   if (navigator.share) {
