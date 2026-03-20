@@ -19,17 +19,103 @@ function getDailyCompletionStorageKey(date = new Date()) {
 
 // Daily completion marked so that the user only completes the code once each day and is locked
 function markTodayCompleted() {
-  localStorage.setItem(getDailyCompletionStorageKey(), "true");
+  persistDailyState({
+    completed: true,
+  });
 }
 
 function hasCompletedToday() {
-  return localStorage.getItem(getDailyCompletionStorageKey()) === "true";
+  return getSavedDailyState()?.completed === true;
+}
+
+function persistDailyState(nextState) {
+  const savedState = getSavedDailyState();
+  localStorage.setItem(
+    getDailyCompletionStorageKey(),
+    JSON.stringify({
+      ...savedState,
+      ...nextState,
+    }),
+  );
+}
+
+function getSavedDailyState() {
+  const completionKey = getDailyCompletionStorageKey();
+  const savedState = localStorage.getItem(completionKey);
+  if (!savedState) return null;
+
+  try {
+    return JSON.parse(savedState);
+  } catch (error) {
+    localStorage.removeItem(completionKey);
+    return null;
+  }
+}
+
+function getBoardSnapshot() {
+  return Array.from(document.querySelectorAll(".game-row")).map((row) => {
+    const tiles = Array.from(row.querySelectorAll(".game-tile")).map((tile) => ({
+      state: tile.dataset.state,
+      fixed: tile.dataset.fixed === "true",
+    }));
+    const pegs = Array.from(row.querySelectorAll(".game-peg")).map((peg) => peg.dataset.state);
+
+    return {
+      locked: row.dataset.locked === "true",
+      tiles,
+      pegs,
+    };
+  });
+}
+
+function persistBoardState() {
+  persistDailyState({
+    rows: getBoardSnapshot(),
+  });
+}
+
+function restoreBoardState() {
+  const savedState = getSavedDailyState();
+  if (!savedState?.rows) return;
+
+  const rows = Array.from(document.querySelectorAll(".game-row"));
+  savedState.rows.forEach((savedRow, rowIndex) => {
+    const row = rows[rowIndex];
+    if (!row) return;
+
+    row.dataset.locked = savedRow.locked ? "true" : "false";
+
+    const tiles = Array.from(row.querySelectorAll(".game-tile"));
+    savedRow.tiles?.forEach((savedTile, tileIndex) => {
+      const tile = tiles[tileIndex];
+      if (!tile) return;
+
+      tile.dataset.state = savedTile?.state ?? "empty";
+      if (savedTile?.fixed) {
+        tile.dataset.fixed = "true";
+      } else {
+        delete tile.dataset.fixed;
+      }
+    });
+
+    const pegs = Array.from(row.querySelectorAll(".game-peg"));
+    savedRow.pegs?.forEach((pegState, pegIndex) => {
+      const peg = pegs[pegIndex];
+      if (!peg) return;
+
+      peg.dataset.state = pegState ?? "empty";
+    });
+  });
+}
+
+function hasShareableResult() {
+  return document.querySelector('.game-row[data-locked="true"]') !== null;
 }
 
 function syncShareVisibility() {
   const shareContainer = document.getElementById("share-results-container");
   if (!shareContainer) return;
-  shareContainer.classList.toggle("hidden", hasCompletedToday());
+  shareContainer.classList.toggle("hidden", !hasShareableResult());
 }
 
 function applyDailyCompletionLock() {
@@ -40,7 +126,6 @@ function applyDailyCompletionLock() {
   const gameOverMessage = document.getElementById("game-over-message");
   const dailyCodeContainer = document.getElementById("daily-code-container");
   const gameCodeboard = document.querySelector(".game-codeboard");
-  const gameBoardContainer = document.querySelector(".game-board-container");
   const codeboardElementsToHide = document.querySelectorAll(
     ".codeboard-row, .code-actions-row",
   );
@@ -51,9 +136,7 @@ function applyDailyCompletionLock() {
 
   dailyCodeContainer?.classList.remove("hidden");
   gameCodeboard?.classList.add("game-over");
-  if (gameBoardContainer) {
-    gameBoardContainer.style.display = "none";
-  }
+
   codeboardElementsToHide.forEach((element) => {
     element.style.display = "none";
   });
@@ -210,6 +293,7 @@ function handleCodeboardTileClick(event) {
   if (!gameLogic.VALID_TILE_STATES.has(selectedColour)) return;
 
   gameLogic.fillFirstEmptyTileInActiveRow(selectedColour);
+  persistBoardState();
 }
 
 // Show the daily target code. This is currently just for testing but will be shown at the end of the game in the final version. Each colour in the code is represented by a dot with a corresponding aria-label for accessibility.
@@ -232,6 +316,7 @@ function renderDailyCodeDisplay() {
 
 // Wire all click handlers once after the DOM is ready.
 document.addEventListener("DOMContentLoaded", () => {
+  restoreBoardState();
   applyDailyCompletionLock();
   syncShareVisibility();
   setupSettingsMenu();
@@ -244,6 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
   deleteButton?.addEventListener("click", () => {
     if (isDailyLockActive) return;
     window.CryptleGameLogic?.deleteLastFilledTileInActiveRow();
+    persistBoardState();
   });
 
   // Enter button: submit the current completed row.
@@ -257,6 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     returnPegFeedback(submission.row, submission.comparison);
+    persistBoardState();
 
     if (isGameOver(submission.comparison)) {
       onGameOver(submission.comparison);
@@ -344,6 +431,8 @@ function onGameOver(comparison) {
   });
 
   markTodayCompleted();
+  persistBoardState();
+  syncShareVisibility();
 }
 
 // Functions for sharing game data
@@ -381,7 +470,7 @@ function buildShareText() {
   const gridRows = getShareGridRows();
   const gridText = gridRows.join("\n");
 
-  return `Cryptle ${modeLabel} ${resultLabel}\n${gridText}`;
+  return `${modeLabel} ${resultLabel}\n${gridText}`;
 }
 
 async function copyShareTextToClipboard(text) {
