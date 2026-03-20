@@ -17,6 +17,13 @@ function isHardGameMode(pathname = window.location.pathname) {
   return pathname.split("/").pop() === "hard_game.html";
 }
 
+function getGameDifficultyLabel(pathname = window.location.pathname) {
+  const currentPage = pathname.split("/").pop();
+  if (currentPage === "easy_game.html") return "easy";
+  if (currentPage === "hard_game.html") return "hard";
+  return "medium";
+}
+
 function getTileStatesForMode(isHardMode = isHardGameMode()) {
   return isHardMode
     ? [...STANDARD_TILE_STATES, ...HARD_MODE_EXTRA_TILE_STATES]
@@ -56,11 +63,14 @@ function createRandomNumberGenerator(seed) {
   };
 }
 
-// Returns the daily 4-colour code for the current mode's colour set (repeats allowed).
-function getDailyTargetCode(date = new Date(), isHardMode = isHardGameMode()) {
+// Returns the daily 4-colour code for the current difficulty (repeats allowed).
+function getDailyTargetCode(
+  date = new Date(),
+  difficulty = getGameDifficultyLabel(),
+) {
   const dateKey = getDateKey(date);
-  const modeKey = isHardMode ? "hard" : "standard";
-  const seed = hashStringToSeed(`cryptle:${modeKey}:${dateKey}`);
+  const isHardMode = difficulty === "hard";
+  const seed = hashStringToSeed(`cryptle:${difficulty}:${dateKey}`);
   const random = createRandomNumberGenerator(seed);
 
   const colours = getTileStatesForMode(isHardMode);
@@ -242,6 +252,7 @@ window.CryptleGameLogic = {
   VALID_TILE_STATES,
   getDateKey,
   getDailyTargetCode,
+  getGameDifficultyLabel,
   DAILY_TARGET_CODE,
   fillFirstEmptyTileInActiveRow,
   deleteLastFilledTileInActiveRow,

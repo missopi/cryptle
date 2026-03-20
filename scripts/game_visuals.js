@@ -10,17 +10,9 @@ const SHARE_SYMBOLS_BY_STATE = {
 const DAILY_COMPLETION_KEY_PREFIX = "cryptle:completed";
 let isDailyLockActive = false;
 
-// Ascertain current game difficulty
-function getGameModeLabel(pathname = window.location.pathname) {
-  const currentPage = pathname.split("/").pop();
-  if (currentPage === "easy_game.html") return "easy";
-  if (currentPage === "hard_game.html") return "hard";
-  return "medium";
-}
-
 // Tracking which game the user has done for the completion data
 function getDailyCompletionStorageKey(date = new Date()) {
-  const difficulty = getGameModeLabel();
+  const difficulty = window.CryptleGameLogic?.getGameDifficultyLabel?.();
   const dateKey = window.CryptleGameLogic?.getDateKey?.(date);
   return `${DAILY_COMPLETION_KEY_PREFIX}:${dateKey}:${difficulty}`;
 }
@@ -384,7 +376,7 @@ function getShareGridRows() {
 }
 
 function buildShareText() {
-  const modeLabel = getGameModeLabel();
+  const modeLabel = window.CryptleGameLogic?.getGameDifficultyLabel?.();
   const resultLabel = getShareResultLabel();
   const gridRows = getShareGridRows();
   const gridText = gridRows.join("\n");
