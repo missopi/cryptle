@@ -10,9 +10,9 @@ const STANDARD_TILE_STATES = [
   "orange",
   "purple",
 ];
-const HARD_MODE_EXTRA_TILE_STATES = ["brown", "red"];
+const HARD_MODE_EXTRA_TILE_STATES = ["red"];
 
-// HArd mode uses 2 additional colours
+// Hard mode uses 1 additional colour
 function isHardGameMode(pathname = window.location.pathname) {
   return pathname.split("/").pop() === "hard_game.html";
 }
