@@ -307,6 +307,17 @@ header {
   box-sizing: border-box;
   user-select: none;
   border-radius: 30%;
+  cursor: default;
+  transition: transform 100ms ease-out, box-shadow 100ms ease-out;
+}
+
+.game-row:not([data-locked="true"]) .game-tile:not([data-fixed="true"]) {
+  cursor: pointer;
+}
+
+.game-row:not([data-locked="true"]) .game-tile[data-selected="true"] {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 1px var(--box-border-color);
 }
 
 .game-tile[data-state="empty"] {

@@ -104,6 +104,71 @@ function getRowColours(row) {
   return tiles.map((tile) => tile.dataset.state);
 }
 
+function getRowTiles(row) {
+  return Array.from(row?.querySelectorAll(".game-tile") ?? []);
+}
+
+function isTileFixed(tile) {
+  return tile?.dataset.fixed === "true";
+}
+
+function clearSelectedTile(row) {
+  getRowTiles(row).forEach((tile) => {
+    delete tile.dataset.selected;
+  });
+}
+
+function getSelectedTileInRow(row) {
+  const selectedTile = row?.querySelector('.game-tile[data-selected="true"]') ?? null;
+  if (!selectedTile || isTileFixed(selectedTile)) return null;
+  return selectedTile;
+}
+
+function findFirstEditableEmptyTile(row) {
+  return (
+    getRowTiles(row).find((tile) => {
+      return tile.dataset.state === "empty" && !isTileFixed(tile);
+    }) ?? null
+  );
+}
+
+function selectTileInActiveRow(tileIndex) {
+  const activeRow = getActiveRow();
+  if (!activeRow) return false;
+
+  const tiles = getRowTiles(activeRow);
+  const targetTile = tiles[tileIndex];
+  if (!targetTile || isTileFixed(targetTile)) return false;
+
+  clearSelectedTile(activeRow);
+  targetTile.dataset.selected = "true";
+  return true;
+}
+
+function selectFirstEditableEmptyTileInActiveRow() {
+  const activeRow = getActiveRow();
+  if (!activeRow) return false;
+
+  const firstEditableEmptyTile = findFirstEditableEmptyTile(activeRow);
+  clearSelectedTile(activeRow);
+
+  if (!firstEditableEmptyTile) return false;
+
+  firstEditableEmptyTile.dataset.selected = "true";
+  return true;
+}
+
+function syncActiveRowSelection() {
+  const activeRow = getActiveRow();
+  if (!activeRow) return false;
+
+  const selectedTile = getSelectedTileInRow(activeRow);
+  if (selectedTile) return true;
+
+  clearSelectedTile(activeRow);
+  return false;
+}
+
 // Get the currently active row, which is the first unlocked row.
 function getActiveRow() {
   return getRows().find((row) => !isRowLocked(row)) ?? null;
@@ -114,16 +179,27 @@ function fillFirstEmptyTileInActiveRow(colour) {
   const activeRow = getActiveRow();
   if (!activeRow) return;
 
-  const firstEmptyTile = activeRow.querySelector('.game-tile[data-state="empty"]');
-  if (!firstEmptyTile) return;
+  const tiles = getRowTiles(activeRow);
+  const selectedTile = getSelectedTileInRow(activeRow);
+  const fallbackTile = findFirstEditableEmptyTile(activeRow);
+  const targetTile = selectedTile ?? fallbackTile;
+  if (!targetTile) return;
 
-  firstEmptyTile.dataset.state = colour;
+  targetTile.dataset.state = colour;
+
+  clearSelectedTile(activeRow);
 }
 
 // Delete the last filled tile only in the current active row.
 function deleteLastFilledTileInActiveRow() {
   const activeRow = getActiveRow();
   if (!activeRow) return;
+
+  const selectedTile = getSelectedTileInRow(activeRow);
+  if (selectedTile && selectedTile.dataset.state !== "empty") {
+    selectedTile.dataset.state = "empty";
+    return;
+  }
 
   const filledTiles = Array.from(
     activeRow.querySelectorAll(
@@ -132,7 +208,9 @@ function deleteLastFilledTileInActiveRow() {
   );
   if (filledTiles.length === 0) return;
 
-  filledTiles[filledTiles.length - 1].dataset.state = "empty";
+  const deletedTile = filledTiles[filledTiles.length - 1];
+  deletedTile.dataset.state = "empty";
+  clearSelectedTile(activeRow);
 }
 
 const DAILY_TARGET_CODE = getDailyTargetCode();
@@ -165,6 +243,8 @@ function prefillLockedCorrectTilesInActiveRow() {
     tile.dataset.state = lockedColour;
     tile.dataset.fixed = "true";
   });
+
+  syncActiveRowSelection();
 }
 
 // Find latest completed row
@@ -254,8 +334,12 @@ window.CryptleGameLogic = {
   getDailyTargetCode,
   getGameDifficultyLabel,
   DAILY_TARGET_CODE,
+  getActiveRow,
   fillFirstEmptyTileInActiveRow,
   deleteLastFilledTileInActiveRow,
+  selectTileInActiveRow,
+  selectFirstEditableEmptyTileInActiveRow,
+  syncActiveRowSelection,
   submitActiveRow,
   returnCompletedTileRowColors,
   compareCompletedCodeToDailyCode,

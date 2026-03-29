@@ -9,6 +9,7 @@
   --game-text-color: #111111;
   --settings-surface-color: #ffffff;
   --settings-border-color: #d0d7de;
+  --box-border-color: #6a6e72;
   --settings-text-color: #111111;
   --settings-hover-color: #f5f6f8;
   --settings-cog-color: #222222;
@@ -66,6 +67,7 @@
   --game-text-color: #f0f3f8;
   --settings-surface-color: #1d2630;
   --settings-border-color: #34475a;
+  --box-border-color: #a3afba;
   --settings-text-color: #f0f3f8;
   --settings-hover-color: #253242;
   --settings-cog-color: #f0f3f8;

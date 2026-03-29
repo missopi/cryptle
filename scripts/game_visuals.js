@@ -106,6 +106,8 @@ function restoreBoardState() {
       peg.dataset.state = pegState ?? "empty";
     });
   });
+
+  window.CryptleGameLogic?.syncActiveRowSelection?.();
 }
 
 function hasShareableResult() {
@@ -296,6 +298,24 @@ function handleCodeboardTileClick(event) {
   persistBoardState();
 }
 
+function handleGameTileClick(event) {
+  if (isDailyLockActive) return;
+
+  const clickedTile = event.target.closest(".game-tile");
+  if (!clickedTile) return;
+
+  const activeRow = window.CryptleGameLogic?.getActiveRow?.();
+  if (!activeRow || !activeRow.contains(clickedTile)) return;
+  if (clickedTile.dataset.fixed === "true") return;
+
+  const tiles = Array.from(activeRow.querySelectorAll(".game-tile"));
+  const clickedTileIndex = tiles.indexOf(clickedTile);
+  if (clickedTileIndex === -1) return;
+
+  window.CryptleGameLogic?.selectTileInActiveRow?.(clickedTileIndex);
+  persistBoardState();
+}
+
 // Show the daily target code. This is currently just for testing but will be shown at the end of the game in the final version. Each colour in the code is represented by a dot with a corresponding aria-label for accessibility.
 function renderDailyCodeDisplay() {
   const display = document.getElementById("daily-code-display");
@@ -318,11 +338,13 @@ function renderDailyCodeDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
   restoreBoardState();
   applyDailyCompletionLock();
+  window.CryptleGameLogic?.syncActiveRowSelection?.();
   syncShareVisibility();
   setupSettingsMenu();
   renderDailyCodeDisplay();
   setupShareResults();
   document.addEventListener("click", handleCodeboardTileClick);
+  document.addEventListener("click", handleGameTileClick);
 
   // Delete button: remove the last filled tile in the current editable row.
   const deleteButton = document.getElementById("delete-button");
@@ -343,6 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     returnPegFeedback(submission.row, submission.comparison);
+    window.CryptleGameLogic?.syncActiveRowSelection?.();
     persistBoardState();
 
     if (isGameOver(submission.comparison)) {
